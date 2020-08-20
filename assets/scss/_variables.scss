@@ -1,0 +1,23 @@
+$material-design-icons-font-path: '../../../node_modules/material-design-icons-iconfont/dist/fonts/' !default;
+$fa-font-path: '../../../node_modules/@fortawesome/fontawesome-free/webfonts/' !default;
+
+$layout-compact-drawer-width:       100px !default;
+
+$dodger-blue:                       #5567FF !default;
+$electric-violet:                   #9C42FF !default;
+$pickled-bluewood:                  #303956 !default;
+$accent-red:                        #ED0B4C !default;
+$accent-yellow:                     #E4A93C !default;
+
+$primary: $dodger-blue              !default;
+$dark: $pickled-bluewood            !default;
+$accent: $accent-red                !default;
+
+$headings-color:                    $dark !default;
+$sidebar-brand-icon-width:          5.125rem !default;
+$enable-shadows:                    true !default;
+
+@import 'ui-huma/scss/variables';
+
+// course nav
+$course-nav-active-bg:              rgba(white, .2) !default;

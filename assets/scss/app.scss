@@ -1,0 +1,77 @@
+@import './variables';
+
+@import 'ui-huma/scss/app';
+@import './course-nav';
+@import './player';
+@import './accordion';
+@import './quiz';
+@import './avatar';
+
+.sidebar-dark-dodger-blue {
+  .sidebar-submenu .sidebar-menu-text::after {
+    background-color: $accent-red;
+  }
+}
+
+.h-100vh {
+  height: 100vh;
+}
+
+// @TODO: move to ui-huma/scss/_layout-boxed.scss
+@include media-breakpoint-up(lg) {
+  .layout-boxed__layout {
+    padding: 1rem 0;
+  }
+}
+
+// @TODO: move to ui-huma/scss/_layout.scss
+@include media-breakpoint-only(xs) {
+  .mdk-header-layout .sub-layout-drawer .mdk-drawer__content {
+    top: $navbar-height;
+  }
+}
+
+.b-rating-inline {
+  box-shadow: none;
+  padding: 0;
+  background-color: transparent;
+  
+  .b-rating-star:first-of-type {
+    padding-left: 0;
+  }
+  
+  &.form-control-sm {
+    height: 1rem;
+  }
+
+  &.form-control-lg {
+    height: 1.5rem;
+  }
+}
+
+.b-rating-value {
+  line-height: 1;
+  color: $text-muted;
+}
+
+.text-rating {
+  color: $rating !important;
+}
+
+// @TODO: add to ui-huma
+#settings .form-image-group {
+  margin-left: -.25rem;
+  margin-right: -.25rem;
+  .col {
+    padding-left: .25rem;
+    padding-right: .25rem;
+    flex: 0 0 50%;
+    max-width: 50%;
+    &:nth-child(even) {
+      margin-left: 0 !important;
+    }
+  }
+  img {
+    width: 100%;
+  }
+}
