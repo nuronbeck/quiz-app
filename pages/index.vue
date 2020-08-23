@@ -1,7 +1,7 @@
 <script>
   //import Index from '~/pages/landing/index'
-  import Login from '~/pages/login'
+  import Home from '~/pages/student/home'
   export default {
-    extends: Login //Index
+    extends: Home, //Index
   }
 </script>

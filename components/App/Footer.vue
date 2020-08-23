@@ -16,13 +16,13 @@
           :alt="brand"> 
         {{ brand }}
       </p>
-      <p
+      <!-- <p
         :class="{ 
           'text-white-50': dark,
           'text-50' : !dark
         }"  
-        class="measure-lead-max small mr-8pt">{{ brand }} is a beautifully crafted user interface for modern Education Platforms, including Courses & Tutorials, Video Lessons, Student and Teacher Dashboard, Curriculum Management, Earnings and Reporting, ERP, HR, CMS, Tasks, Projects, eCommerce and more.</p>
-      <p class="mb-8pt d-flex">
+        class="measure-lead-max small mr-8pt">{{ brand }} is a beautifully crafted user interface for modern Education Platforms, including Courses & Tutorials, Video Lessons, Student and Teacher Dashboard, Curriculum Management, Earnings and Reporting, ERP, HR, CMS, Tasks, Projects, eCommerce and more.</p> -->
+      <!-- <p class="mb-8pt d-flex">
         <a 
           href=""
           :class="{ 
@@ -37,13 +37,13 @@
             'text-70' : !dark
           }" 
           class="text-underline small">Privacy policy</a>
-      </p>
+      </p> -->
       <p
         :class="{ 
           'text-white-50': dark,
           'text-50' : !dark
         }"  
-        class="small mt-n1 mb-0">Copyright 2019 &copy; All rights reserved.</p>
+        class="small mt-n1 mb-0">Copyright 2020 &copy; All rights reserved.</p>
     </div>
   </div>
 </template>

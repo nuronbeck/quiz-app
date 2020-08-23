@@ -36,7 +36,7 @@ module.exports = {
   /*
   ** Customize the progress-bar color
   */
-  loading: { color: '#fff' },
+  loading: { color: '#2239ff' },
 
   /*
   ** Global CSS
@@ -53,7 +53,8 @@ module.exports = {
   */
   plugins: [
     '~/plugins/vendor.js',
-    { src: '~plugins/quill', ssr: false }
+    { src: '~plugins/quill', ssr: false },
+    { src: '~/plugins/vuelidate' }
     // custom i18n implementation
     // '~/plugins/i18n.js'
   ],
@@ -62,6 +63,9 @@ module.exports = {
   ** Nuxt.js modules
   */
   modules: [
+    // Doc: https://www.npmjs.com/package/nuxt-sweetalert2
+    'nuxt-sweetalert2',
+    'nuxt-vue-select',
     // Doc: https://github.com/nuxt-community/axios-module#usage
     '@nuxtjs/axios',
     // Doc: https://bootstrap-vue.js.org/docs/
@@ -87,7 +91,10 @@ module.exports = {
   */
   axios: {
     // See https://github.com/nuxt-community/axios-module#options
+    baseURL: `http://quiz.workey.space/api/v1`
   },
+
+
 
   render: {
     resourceHints: false
@@ -95,7 +102,7 @@ module.exports = {
 
   router: {
     base: '/',
-    linkActiveClass: 'active',
+    // linkActiveClass: 'active',
     linkExactActiveClass: 'active',
     middleware: [
       'settings'

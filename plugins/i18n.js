@@ -12,13 +12,6 @@ export default ({ app, store }) => {
         day: 'numeric'
       }
     },
-    'ro-RO': {
-      short: {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
-      }
-    },
     'ru-RU': {
       short: {
         year: 'numeric',
@@ -45,7 +38,6 @@ export default ({ app, store }) => {
     dateTimeFormats,
     messages: {
       en: require('~/locales/en.json'),
-      ro: require('~/locales/ro.json'),
       ro: require('~/locales/ru.json'),
       uz: require('~/locales/uz.json')
     },

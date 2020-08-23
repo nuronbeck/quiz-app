@@ -18,7 +18,7 @@
 
       <!-- Brand -->
       <b-navbar-brand 
-        to="/"
+        :to="localePath('/')"
         :class="navbarBrandClass">
         <fmv-avatar
           :title="true"
@@ -91,7 +91,8 @@
       <b-navbar-nav
         v-if="guest" 
         class="d-none d-sm-flex flex justify-content-start ml-8pt">
-        <b-nav-item :to="localePath('student-home')">{{ $t('Home') }}</b-nav-item>
+        <!-- <b-nav-item :to="localePath('student-home')">{{ $t('Home') }}</b-nav-item> -->
+        <b-nav-item :to="localePath('/')">{{ $t('Home') }}</b-nav-item>
         <b-nav-item-dropdown
           :text="$t('Courses')"
           no-caret>
@@ -292,17 +293,31 @@
   }
 </i18n>
 
-<i18n locale="ro">
+<i18n locale="ru">
   {
-    "Earnings": "Încasări",
-    "Sales": "Vânzări",
+    "Earnings": "Заработки",
+    "Sales": "Продажи",
     "notifications": {
-      "profile_sync_error": "Informațiile tale de profil nu au fost sincronizate corect.",
-      "user_wants_to_join": "<strong>{user}</strong> vrea să ți se alăture.",
-      "deploy_success": "Implementarea ta a avut succes."
+      "profile_sync_error": "Ошибка при синхронизации данных профиля",
+      "user_wants_to_join": "<strong>{user}</strong> хочет присоединиться.",
+      "deploy_success": "Разворачивание прошла успешно."
     },
-    "System notifications": "Notificări",
-    "Messages": "Mesaje"
+    "System notifications": "Системные уведомления",
+    "Messages": "Сообщения"
+  }
+</i18n>
+
+<i18n locale="uz">
+  {
+    "Earnings": "Daromadlar",
+    "Sales": "Sotilishlar",
+    "notifications": {
+      "profile_sync_error": "Profil ma'lumotlari sinxronlanishida xatolik.",
+      "user_wants_to_join": "<strong>{user}</strong> sizga qo'shilmoqchi.",
+      "deploy_success": "Sizning joylashuvtiruvingiz muvaffaqiyatli amalga oshirildi."
+    },
+    "System notifications": "Tizim xabarnomalari",
+    "Messages": "Xabarnomalar"
   }
 </i18n>
 
