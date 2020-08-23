@@ -7,7 +7,7 @@
       style="min-width: 300px;">
       <div class="text-center mt-5 mb-1">
         <fmv-avatar
-          :to="localePath('student-dashboard')"
+          :to="localePath('/')"
           :title="true"
           title-class="bg-primary">
           <b-img 
@@ -20,7 +20,7 @@
       <div class="d-flex justify-content-center mb-4 navbar-light">
         <!-- Brand -->
         <b-link 
-          :to="localePath('student-dashboard')"
+          :to="localePath('/')"
           class="navbar-brand m-0"
           v-text="$store.state.brand" />
       </div>
@@ -30,7 +30,7 @@
         header-class="text-center"
         class="navbar-shadow">
 
-        <b-btn 
+        <!-- <b-btn 
           :to="localePath('student-dashboard')"
           variant="light"
           exact
@@ -43,38 +43,53 @@
         <page-separator
           :title="$t('or')"
           text-class="bg-white"
-          center />
+          center /> -->
 
-        <b-form 
-          :action="localePath('student-dashboard')" 
-          novalidate 
-          method="get">
-          
+        <b-form
+          :validated="loginSubmitted"
+          method="post"
+        >
+          <div v-if="loginError !== ''" class="alert alert-danger text-center" role="alert">
+            Username or password incorrect!
+          </div>
           <b-form-group
             :label="`${$t('Your phone number')}:`"
+            :state="!$v.loginData.phone.$invalid"
             label-for="phone"
-            label-class="form-label">
+            label-class="form-label"
+            invalid-feedback="*Fill phone number and make sure used right credentials!"
+          >
             <fmv-input-group-merge
               id="phone"
               :placeholder="$t('Your phone number')"
               type="text"
               required
-              prepend>
+              prepend
+              name="phone"
+              v-model="loginData.phone"
+              :state="!$v.loginData.phone.$invalid"
+            >
               <span class="fas fa-phone" />
             </fmv-input-group-merge>
           </b-form-group>
 
           <b-form-group
             :label="`${$t('Your password')}:`"
+            :state="!$v.loginData.password.$invalid"
             label-for="password"
-            label-class="form-label">
+            label-class="form-label"
+            invalid-feedback="*Fill password and male sure used right credentials!"
+          >
             <fmv-input-group-merge
               id="password"
               :placeholder="$t('Your password')"
               type="password"
               class="form-control-prepended"
               required
-              prepend>
+              prepend
+              v-model="loginData.password"
+              :state="!$v.loginData.password.$invalid"
+            >
               <span class="fas fa-key" />
             </fmv-input-group-merge>
           </b-form-group>
@@ -84,7 +99,9 @@
               type="submit" 
               variant="primary"
               block
-              v-text="$t('Login')" />
+              v-text="$t('Login')"
+              @click.prevent="LoginSubmit"
+            />
           </div>
 
           <div class="text-center">
@@ -110,22 +127,10 @@
   </div>
 </template>
 
-<i18n locale="ro">
-  {
-    "Continue with Google": "Continuă cu Google",
-    "or": "sau",
-    "Your phone number": "Adresa ta de phone",
-    "Your password": "Parola ta",
-    "Have an account?": "Ai deja un cont?",
-    "Access your account": "Accesează contul tău",
-    "Not yet a student?": "Încă nu ai cont de student?",
-    "Sign up": "Înscrie-te",
-    "Forgot Password?": "Ai uitat parola?"
-  }
-</i18n>
 
 <i18n locale="ru">
   {
+    "Login error! Please check data or try again.": "Ошибка авторизации! Проверьте данные или попробуйте позже.",
     "Continue with Google": "Войти с помощью Google",
     "or": "или",
     "Your phone number": "Номер телефона",
@@ -140,6 +145,7 @@
 
 <i18n locale="uz">
   {
+    "Login error! Please check data or try again.": "Kirish o'xshamadi! Ma'lumotlaringizni tekshiring yoki keyinroq urinib ko'ring.",
     "Continue with Google": "Google orqali kirish",
     "or": "yoki",
     "Your phone number": "Telefon raqamingiz",
@@ -153,11 +159,50 @@
 </i18n>
 
 <script>
+import { required, minLength } from 'vuelidate/lib/validators'
+import sweetalert from '~/mixins/sweetalert'
+
 export default {
   layout: 'blank',
+  mixins: [
+    sweetalert
+  ],
+  mounted() {
+    this.loginData.phone = '777777777'
+    this.loginData.password = '123456789'
+  },
   data() {
     return {
-      title: 'Login'
+      title: 'Login',
+      loginError: '',
+      loginData: {
+        phone: '',
+        password: ''
+      }
+    }
+  },
+  validations: {
+    loginData: {
+      phone: {
+        required,
+        //phoneValidator: (phone) => /^\+[0-9]?[0-9](\d[0-9]{9})$/gm.test(phone)
+      },
+      password: {
+        required,
+        minLength: minLength(6)
+      }
+    }
+  },
+  methods: {
+    LoginSubmit(){
+      this.$v.$touch()
+
+      if(!this.$v.$invalid) {
+        this.notifyToast(this.$t('Login error! Please check data or try again.'), 'error')
+      } else {
+        this.notifyToast(this.$t('Login error! Please check data or try again.'), 'error')
+      }
+
     }
   },
   async asyncData() {

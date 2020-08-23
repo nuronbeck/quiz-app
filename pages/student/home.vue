@@ -43,7 +43,7 @@
       </div>
     </div>
 
-    <div class="page-section border-bottom-2">
+    <!-- <div class="page-section border-bottom-2">
       <div :class="containerClass">
 
         <page-separator>From the blog</page-separator>
@@ -68,7 +68,7 @@
         </div>
 
       </div>
-    </div>
+    </div> -->
 
     <div class="page-section border-bottom-2">
       <div :class="containerClass">
@@ -90,7 +90,7 @@
           </div>
         </div>
 
-        <div class="row card-group-row mb-lg-8pt">
+        <!-- <div class="row card-group-row mb-lg-8pt">
           <div
             v-for="item in paths2"
             :key="item.id" 
@@ -104,18 +104,21 @@
               :account="false"
               :cta="false" />
           </div>
-        </div>
+        </div> -->
 
       </div>  
     </div>
 
-    <div class="page-section border-bottom-2">
+    <div class="page-section border-bottom-2"
+      v-for="(course, index_course) in courses"
+      :key="index_course"
+    >
       <div :class="containerClass">
-        <page-separator>Design Courses</page-separator>
+        <page-separator>{{ course.name }}</page-separator>
 
         <div class="row card-group-row">
           <div 
-            v-for="item in courses"
+            v-for="item in course.subcourses"
             :key="item.id"
             class="col-md-6 col-lg-4 col-xl-3 card-group-row__col">
             <course-card
@@ -134,7 +137,7 @@
       </div>
     </div>
 
-    <page-feedback />
+    <!-- <page-feedback /> -->
 
   </div>
 </template>
@@ -145,7 +148,7 @@ import PostFeaturedCard from '~/components/App/Blog/PostFeaturedCard'
 import PostCard from '~/components/App/Blog/PostCard'
 import AccountPathCard from '~/components/App/AccountPathCard'
 import CourseCard from '~/components/App/CourseCard'
-import PageFeedback from '~/components/App/PageFeedback'
+// import PageFeedback from '~/components/App/PageFeedback'
 import StudentHomeHero from '~/components/App/Student/HomeHero'
 import {FmvBox} from 'fmv-layout'
 
@@ -155,7 +158,7 @@ export default {
     PostCard,
     AccountPathCard,
     CourseCard,
-    PageFeedback,
+    // PageFeedback,
     StudentHomeHero,
     FmvBox
   },
@@ -163,73 +166,94 @@ export default {
   data () {
     return {
       title: this.$t('Home'),
-      blogPosts1: [{
-        image: "sketch",
-        category: "Sketch",
-        title: "Merge Duplicates Inconsistent Symbols",
-        author_avatar: "/images/256_luke-porter-261779-unsplash.jpg",
-        to: 'community-blog-post'
-      }, {
-        image: "invision",
-        category: "inVision",
-        title: "Design Systems Essentials",
-        author_avatar: "/images/256_michael-dam-258165-unsplash.jpg",
-        to: 'community-blog-post'
-      }, {
-        image: "photoshop",
-        category: "Photoshop",
-        title: "Semantic Logo Design",
-        author_avatar: "/images/256_rsz_1andy-lee-642320-unsplash.jpg",
-        to: 'community-blog-post'
-      }],
-      blogPosts2: [{
-        avatar: "/images/paths/invision_200x168.png",
-        title: "Design Systems Essentials",
-        views: 35,
-        tag: "inVision",
-        date: "11 Nov, 2018 07:46 AM",
-        avatarGroup: true,
-        avatarCount: 3,
-        avatars: [
-          "/images/256_rsz_1andy-lee-642320-unsplash.jpg",
-          "/images/256_michael-dam-258165-unsplash.jpg",
-          "/images/256_luke-porter-261779-unsplash.jpg"
-        ],
-        to: 'community-blog-post'
-      }],
+      // blogPosts1: [{
+      //   image: "sketch",
+      //   category: "Sketch",
+      //   title: "Merge Duplicates Inconsistent Symbols",
+      //   author_avatar: "/images/256_luke-porter-261779-unsplash.jpg",
+      //   to: 'community-blog-post'
+      // }, {
+      //   image: "invision",
+      //   category: "inVision",
+      //   title: "Design Systems Essentials",
+      //   author_avatar: "/images/256_michael-dam-258165-unsplash.jpg",
+      //   to: 'community-blog-post'
+      // }, {
+      //   image: "photoshop",
+      //   category: "Photoshop",
+      //   title: "Semantic Logo Design",
+      //   author_avatar: "/images/256_rsz_1andy-lee-642320-unsplash.jpg",
+      //   to: 'community-blog-post'
+      // }],
+      // blogPosts2: [{
+      //   avatar: "/images/paths/invision_200x168.png",
+      //   title: "Design Systems Essentials",
+      //   views: 35,
+      //   tag: "inVision",
+      //   date: "11 Nov, 2018 07:46 AM",
+      //   avatarGroup: true,
+      //   avatarCount: 3,
+      //   avatars: [
+      //     "/images/256_rsz_1andy-lee-642320-unsplash.jpg",
+      //     "/images/256_michael-dam-258165-unsplash.jpg",
+      //     "/images/256_luke-porter-261779-unsplash.jpg"
+      //   ],
+      //   to: 'community-blog-post'
+      // }],
       paths1: [{
-        title: 'React Native',
+        title: 'Tarix',
         image: 'react'
       }, {
-        title: 'Dev Ops',
+        title: 'Ona tili',
         image: 'devops'
       }, {
-        title: 'Redis',
+        title: 'Matematika',
         image: 'redis'
       }],
-      paths2: [{
-        title: 'MailChimp',
-        image: 'mailchimp'
-      }, {
-        title: 'Swift',
-        image: 'swift'
-      }, {
-        title: 'WordPress',
-        image: 'wordpress'
-      }],
-      courses: [{
-        title: 'Learn Sketch',
-        image: 'sketch'
-      }, {
-        title: 'Learn Flinto',
-        image: 'flinto'
-      }, {
-        title: 'Learn Photoshop',
-        image: 'photoshop'
-      }, {
-        title: 'Learn Figma', 
-        image: 'figma'
-      }]
+      // paths2: [{
+      //   title: 'MailChimp',
+      //   image: 'mailchimp'
+      // }, {
+      //   title: 'Swift',
+      //   image: 'swift'
+      // }, {
+      //   title: 'WordPress',
+      //   image: 'wordpress'
+      // }],
+      courses: [
+        {
+          name: "Tarix",
+          subcourses: [{
+            title: 'Tarix 6-sinf',
+            image: 'sketch'
+          }, {
+            title: 'Tarix 7-sinf',
+            image: 'flinto'
+          }, {
+            title: 'Tarix 8-sinf',
+            image: 'photoshop'
+          }, {
+            title: 'Tarix 9-sinf', 
+            image: 'figma'
+          }]
+        },
+        {
+          name: "Ona tili",
+          subcourses: [{
+            title: 'Ona tili 6-sinf',
+            image: 'sketch'
+          }, {
+            title: 'Ona tili 7-sinf',
+            image: 'flinto'
+          }, {
+            title: 'Ona tili 8-sinf',
+            image: 'photoshop'
+          }, {
+            title: 'Ona tili 9-sinf', 
+            image: 'figma'
+          }]
+        }
+      ]
     }
   },
   computed: {
