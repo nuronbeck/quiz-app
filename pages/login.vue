@@ -46,7 +46,7 @@
           center /> -->
 
         <b-form
-          :validated="loginSubmitted"
+          validated
           method="post"
         >
           <div v-if="loginError !== ''" class="alert alert-danger text-center" role="alert">
@@ -100,7 +100,7 @@
               variant="primary"
               block
               v-text="$t('Login')"
-              @click.prevent="LoginSubmit"
+              @click.prevent="loginSubmit"
             />
           </div>
 
@@ -139,7 +139,8 @@
     "Access your account": "Доступ к вашему аккаунту",
     "Not yet a student?": "Еще не студент?",
     "Sign up": "Зарегистрироваться",
-    "Forgot Password?": "Забыли пароль?"
+    "Forgot Password?": "Забыли пароль?",
+    "Successfully logged!": "Вход в аккаунт прошла успешно!"
   }
 </i18n>
 
@@ -154,11 +155,13 @@
     "Access your account": "Akkauntingizga kirish huquqi",
     "Not yet a student?": "Hali ham student emasmisiz?",
     "Sign up": "Ro'yxatdan o'tish",
-    "Forgot Password?": "Parolni unutdingizmi?"
+    "Forgot Password?": "Parolni unutdingizmi?",
+    "Successfully logged!": "Shaxsiy kabinetingizga muvaffaqiyatli kirdingiz!"
   }
 </i18n>
 
 <script>
+import { mapActions, mapGetters } from 'vuex'
 import { required, minLength } from 'vuelidate/lib/validators'
 import sweetalert from '~/mixins/sweetalert'
 
@@ -167,9 +170,14 @@ export default {
   mixins: [
     sweetalert
   ],
+  computed: {
+    ...mapGetters({
+      user: 'user/user'
+    })
+  },
   mounted() {
-    this.loginData.phone = '777777777'
-    this.loginData.password = '123456789'
+    this.loginData.phone = '+79324722070'
+    this.loginData.password = 'Ab1234567890'
   },
   data() {
     return {
@@ -185,7 +193,7 @@ export default {
     loginData: {
       phone: {
         required,
-        //phoneValidator: (phone) => /^\+[0-9]?[0-9](\d[0-9]{9})$/gm.test(phone)
+        phoneValidator: (phone) => /^\+[0-9]?[0-9](\d[0-9]{9})$/gm.test(phone)
       },
       password: {
         required,
@@ -194,11 +202,32 @@ export default {
     }
   },
   methods: {
-    LoginSubmit(){
+    ...mapActions({
+      userLogin: 'user/userLogin'
+    }),
+    async loginSubmit(){
+      let self = this
       this.$v.$touch()
 
       if(!this.$v.$invalid) {
-        this.notifyToast(this.$t('Login error! Please check data or try again.'), 'error')
+        await this.userLogin(this.loginData).then(() => {
+          this.notifyToast(this.$t('Successfully logged!'), 'success').then(() => {
+            if(self.user.role == 0){ 
+              this.$router.push({ name: `student-dashboard___${self.$i18n.locale}` })
+            } 
+            // if (this.user.role == 1) {
+            //   this.$router.push({ name: `teacher-dashboard___${this.selectedLanguage.code}` })
+            // } 
+            // if (this.user.role == 2) {
+            //   this.$router.push({ name: `admin-dashboard___${this.selectedLanguage.code}` })
+            // }
+          })
+          
+        })
+        .catch(() => {
+          this.notifyToast(this.$t('Server Error! Please try again or try another phone number!'), 'error')
+        })
+        
       } else {
         this.notifyToast(this.$t('Login error! Please check data or try again.'), 'error')
       }
