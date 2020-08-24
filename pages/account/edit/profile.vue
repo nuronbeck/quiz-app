@@ -18,7 +18,7 @@
             vertical-align="center">
             <fmv-avatar
               slot="aside"
-              src="/images/people/110/guy-6.jpg"
+              src="/images/people/user_not_set.jpg"
               alt="Avatar"
               size="lg"
               no-link>
