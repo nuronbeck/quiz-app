@@ -5,7 +5,7 @@ export const state = () => ({
     isUserLoggingIn: false
 })
   
-  export const mutations = {
+  export const mutations = { 
     SET_TOKEN(state, auth_token){
       state.token = auth_token
       auth_token !== null ? localStorage.setItem('auth_token', auth_token) : localStorage.removeItem('auth_token')
@@ -21,7 +21,31 @@ export const state = () => ({
     }
   }
   
-  export const actions = {
+  export const actions = { 
+    async checkUserAuthToken(){
+      if(localStorage.getItem('auth_token') !== null && localStorage.getItem('auth_token') !== 'undefined'){
+        await this.$axios.get('/profile', {
+          headers: {
+            'Authorization': `Bearer ${ localStorage.getItem('auth_token') }`
+          }
+        })
+        .then((response) => { 
+          if(response.status === 200 && response.data.hasOwnProperty('token')){
+            commit('SET_TOKEN', response.data.token)
+            commit('SET_USER', response.data.data) 
+          } else {
+            commit('SET_TOKEN', null)
+            commit('SET_USER', []) 
+          }   
+        })
+        .catch(() => {
+          commit('SET_TOKEN', null) 
+        })
+      } else {
+        commit('SET_TOKEN', null) 
+        commit('SET_LOGIN_LOADING', false)
+      }
+    },
     userLogin({ commit }, payload) {
       commit('SET_LOGIN_LOADING', true)
       return new Promise((resolve, reject) => {
@@ -68,5 +92,9 @@ export const state = () => ({
     isRegisteringUser: state => state.isUserRegistering,
     isLoggingUser: state => state.isUserLoggingIn,
     user: state => state.user,
+    hasToken: state => !!state.token,
+    isAdmin: state => !!state.user ? state.user.role === 2 : false,
+    isTeacher: state => !!state.user ? state.user.role === 1 : false,
+    isStudent: state => !!state.user ? state.user.role === 0 : false,
   }
   

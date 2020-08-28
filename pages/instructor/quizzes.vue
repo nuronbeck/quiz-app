@@ -34,6 +34,7 @@ import EditQuizCard from '~/components/App/Instructor/EditQuizCard'
 import EditQuizzesList from '~/components/App/Instructor/EditQuizzesList'
 
 export default {
+  middleware: ['auth'],
   components: {
     EditQuizCard,
     EditQuizzesList

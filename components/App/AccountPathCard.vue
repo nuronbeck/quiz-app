@@ -19,7 +19,7 @@
               <div class="rounded mr-12pt z-0 o-hidden">
                 <div class="overlay">
                   <img 
-                    :src="`/images/paths/${image}_40x40@2x.png`" 
+                    :src="`${image}`" 
                     width="40" 
                     height="40" 
                     :alt="title" 

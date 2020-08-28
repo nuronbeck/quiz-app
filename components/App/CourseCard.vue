@@ -13,7 +13,7 @@
         :data-height="reveals ? 168 : 128"
         class="js-image">
         <img 
-          :src="`/images/paths/${image}_430x168.png`" 
+          :src="`${image}`" 
           alt="course">
         <span 
           class="overlay__content"
@@ -43,7 +43,7 @@
               <a 
                 class="card-title" 
                 href="">{{ title }}</a>
-              <small class="text-50 font-weight-bold mb-4pt">Elijah Murray</small>
+              <small class="text-50 font-weight-bold mb-4pt" v-if="false">Nurbek Ismoilov</small>
             </div>
             <md-icon 
               v-b-tooltip.hover.top="{ title: favorite ? $t('Remove Favorite') : $t('Add Favorite') }"
@@ -102,7 +102,7 @@
       <div class="media">
         <div class="media-left mr-12pt">
           <img 
-            :src="`/images/paths/${avatar}_40x40@2x.png`" 
+            :src="`${avatar}`" 
             width="40" 
             height="40" 
             :alt="avatar" 
@@ -110,16 +110,16 @@
         </div>
         <div class="media-body">
           <div class="card-title mb-0">{{ title }}</div>
-          <p class="lh-1 mb-0">
+          <p class="lh-1 mb-0" v-if="false">
             <span class="text-black-50 small" v-text="$t('with')"></span>
-            <span class="text-black-50 small font-weight-bold">Elijah Murray</span>
+            <span class="text-black-50 small font-weight-bold">Nurbek Ismoilov</span>
           </p>
         </div>
       </div>
       
       <p class="my-16pt text-black-70">{{ localDescription }}</p>
 
-      <div class="mb-16pt">
+      <div class="mb-16pt" v-if="false">
         <div class="d-flex align-items-center">
           <span class="material-icons icon-16pt text-black-50 mr-8pt">check</span>
           <p class="flex text-black-50 lh-1 mb-0"><small>Fundamentals of working with Angular</small></p>

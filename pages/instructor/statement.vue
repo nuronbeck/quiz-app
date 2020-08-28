@@ -31,6 +31,7 @@
   import TransactionsTable from '~/components/App/TransactionsTable'
 
   export default {
+    middleware: ['auth'],
     components: {
       TransactionsTable
     },

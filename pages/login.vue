@@ -176,8 +176,8 @@ export default {
     })
   },
   mounted() {
-    this.loginData.phone = '+79324722070'
-    this.loginData.password = 'Ab1234567890'
+    this.loginData.phone = '+998977777777'
+    this.loginData.password = '123123'
   },
   data() {
     return {
@@ -212,15 +212,17 @@ export default {
       if(!this.$v.$invalid) {
         await this.userLogin(this.loginData).then(() => {
           this.notifyToast(this.$t('Successfully logged!'), 'success').then(() => {
-            if(self.user.role == 0){ 
-              this.$router.push({ name: `student-dashboard___${self.$i18n.locale}` })
-            } 
-            // if (this.user.role == 1) {
-            //   this.$router.push({ name: `teacher-dashboard___${this.selectedLanguage.code}` })
-            // } 
-            // if (this.user.role == 2) {
-            //   this.$router.push({ name: `admin-dashboard___${this.selectedLanguage.code}` })
-            // }
+            setTimeout(() => {
+              if(self.user.role == 0){ 
+                self.$router.push({ name: `student-dashboard___${self.$i18n.locale}` }) 
+              } 
+              // if (this.user.role == 1) {
+              //   this.$router.push({ name: `teacher-dashboard___${this.selectedLanguage.code}` })
+              // } 
+              // if (this.user.role == 2) {
+              //   this.$router.push({ name: `admin-dashboard___${this.selectedLanguage.code}` })
+              // }
+            }, 250)
           })
           
         })

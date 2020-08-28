@@ -56,7 +56,7 @@
     </fmv-drawer>
     
     <app-settings
-      v-if="$store.state.settings.ui"
+      v-if="false && $store.state.settings.ui"
       :redirect-layout="redirectLayout" />
 
     <component

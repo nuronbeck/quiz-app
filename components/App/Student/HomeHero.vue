@@ -4,11 +4,11 @@
     class="hero text-center text-md-left py-112pt">
     <h1 
       class="text-white text-shadow"
-      v-text="title" />
+      v-text="$t('home_hero_title') || title" />
     <p 
       class="lead measure-hero-lead mx-auto mx-md-0 text-white text-shadow"
       :class="[ cta || link ? 'mb-48pt' : 'mb-0' ]"
-      v-text="subtitle" />
+      v-text="$t('home_hero_description') || subtitle" />
     
     <b-btn
       v-if="cta" 
@@ -18,7 +18,7 @@
       v-text="$t('Browse Courses')" />
 
     <p
-      v-if="link" 
+      v-if="false && link" 
       class="mb-0">
       <b-link 
         :to="localePath(linkRoute)"

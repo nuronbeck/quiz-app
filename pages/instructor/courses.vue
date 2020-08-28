@@ -60,11 +60,13 @@
   }
 </i18n>
 
+
 <script>
 import Page from '~/components/App/Page'
 import InstructorCourseCard from '~/components/App/Instructor/InstructorCourseCard'
 
 export default {
+  middleware: ['auth'],
   components: {
     InstructorCourseCard
   },

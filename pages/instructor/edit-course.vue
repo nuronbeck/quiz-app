@@ -129,6 +129,7 @@
   import EditCourseSections from '~/components/App/Instructor/EditCourseSections'
 
   export default {
+    middleware: ['auth'],
     components: {
       EditCourseBasic,
       EditCourseSections

@@ -5,13 +5,13 @@ Vue.use(VueI18n)
 
 export default ({ app, store }) => {
   const dateTimeFormats = {
-    'en-US': {
-      short: {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric'
-      }
-    },
+    // 'en-US': {
+    //   short: {
+    //     year: 'numeric',
+    //     month: 'short',
+    //     day: 'numeric'
+    //   }
+    // },
     'ru-RU': {
       short: {
         year: 'numeric',
@@ -28,7 +28,7 @@ export default ({ app, store }) => {
     }
   }
 
-  const fallbackLocale = 'en'
+  const fallbackLocale = 'ru'
 
   // Set i18n instance on app
   // This way we can use it in middleware and pages asyncData/fetch
@@ -37,7 +37,7 @@ export default ({ app, store }) => {
     fallbackLocale,
     dateTimeFormats,
     messages: {
-      en: require('~/locales/en.json'),
+      // en: require('~/locales/en.json'),
       ro: require('~/locales/ru.json'),
       uz: require('~/locales/uz.json')
     },

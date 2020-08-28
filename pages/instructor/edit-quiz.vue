@@ -85,6 +85,7 @@
   import NewQuizQuestionCard from '~/components/App/Instructor/NewQuizQuestionCard'
 
   export default {
+    middleware: ['auth'],
     components: {
       EditQuizQuestions,
       NewQuizQuestionCard

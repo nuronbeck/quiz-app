@@ -1,4 +1,7 @@
 {
+  "en": "English", 
+  "ru": "Русский",
+  "uz": "O'zbekcha",
   "Home": "Главная",
   "Pricing": "Цены",
   "Dashboard": "Кабинет",
@@ -149,5 +152,7 @@
   "Documentation": "Documentație",
   "pricing_description": "Schimbă-ți viitorul astăzi cu peste 1.000 de cursuri profesionale de profesori și profesioniști de top din industrie.",
   "home_hero_title": "Изучайте кодить",
-  "home_hero_description": "Бизнес, технологии и творческие навыки, преподаваемые отраслевыми экспертами. Изучите широкий спектр навыков с помощью наших профессиональных занятии."
+  "home_hero_description": "Бизнес, технологии и творческие навыки, преподаваемые отраслевыми экспертами. Изучите широкий спектр навыков с помощью наших профессиональных занятии.",
+  "All categories": "Все категории",
+  "All": "Все"
 }
