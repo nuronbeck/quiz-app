@@ -5,78 +5,36 @@
       class="page-section">
       
       <results-heading
-        :enable-sidebar-toggle="resultsHeadingSidebarToggle" />
+        :enable-sidebar-toggle="resultsHeadingSidebarToggle"
+        v-if="false"
+      />
 
-      <page-separator>Popular Courses</page-separator>
+      <div v-for="(course, ind) in categoriesByLanguage" :key="ind">
+        <page-separator>{{ course.name }}</page-separator>
 
-      <div class="row card-group-row">
-        <div
-          v-for="item in popular"
-          :key="item.id" 
-          class="col-md-6 col-lg-4 col-xl-3 card-group-row__col">
-          <course-card
-            :title="item.title"
-            :image="item.image"
-            :avatar="(item.avatar || item.image)"
-            :free="item.free"
-            :favorite="item.favorite"
-            :position="item.position"
-            :open="item.open"
-            :author-avatar="item.author_avatar"
-            card-class="card-group-row__card"
-            class="d-flex w-100" />
+        <div class="row card-group-row">
+          <div
+            v-for="item in course.courses"
+            :key="item.id" 
+            class="col-md-6 col-lg-4 col-xl-3 card-group-row__col">
+            <course-card
+              :title="item.name"
+              :image="false ? `${$axios.defaults.baseURL}/${item.file.path}` : '/images/paths/devops_430x168.png'"
+              :avatar="item.avatar || '/images/paths/devops_40x40@2x.png'"
+              :free="item.free"
+              :favorite="item.favorite"
+              :position="item.position"
+              :open="item.open"
+              :author-avatar="item.author_avatar"
+              card-class="card-group-row__card"
+              class="d-flex w-100" />
+          </div>
         </div>
-      </div>
+        
+        <pager class="mb-32pt" />
 
-      <pager class="mb-32pt" />
+      </div> 
 
-      <page-separator>Development Courses</page-separator>
-
-      <div class="row card-group-row">
-        <div
-          v-for="item in development"
-          :key="item.id" 
-          class="col-md-6 col-lg-4 col-xl-3 card-group-row__col">
-          <course-card
-            :title="item.title"
-            :image="item.image"
-            :avatar="(item.avatar || item.image)"
-            :free="item.free"
-            :favorite="item.favorite"
-            :position="item.position"
-            :open="item.open"
-            :author-avatar="item.author_avatar"
-            :reveals="false"
-            card-class="card-group-row__card"
-            class="d-flex w-100" />
-        </div>
-      </div>
-
-      <pager class="mb-32pt" />
-
-      <page-separator>Design Courses</page-separator>
-
-      <div class="row card-group-row">
-        <div
-          v-for="item in design"
-          :key="item.id" 
-          class="col-md-6 col-lg-4 col-xl-3 card-group-row__col">
-          <course-card
-            :title="item.title"
-            :image="item.image"
-            :avatar="(item.avatar || item.image)"
-            :free="item.free"
-            :favorite="item.favorite"
-            :position="item.position"
-            :open="item.open"
-            :author-avatar="item.author_avatar"
-            :reveals="false"
-            card-class="card-group-row__card"
-            class="d-flex w-100" />
-        </div>
-      </div>
-
-      <pager />
     </div>
   </div>
 </template>
@@ -89,6 +47,8 @@ import CourseCard from '~/components/App/CourseCard'
 import LibraryDrawer from '~/components/App/LibraryDrawer'
 import LibrarySidebar from '~/components/App/LibrarySidebar'
 
+import { mapGetters, mapActions } from 'vuex'
+
 export default {
   components: {
     ResultsHeading,
@@ -97,52 +57,16 @@ export default {
   extends: Page,
   data () {
     return {
-      title: this.$t('Browse Courses'),
-      popular: [{
-        title: 'Newsletter Design', 
-        image: 'mailchimp',
-        open: true,
-        favorite: true
-      }, {
-        title: 'Adobe XD', 
-        image: 'xd'
-      }, {
-        title: 'inVision App', 
-        image: 'invision'
-      }, {
-        title: 'Craft by inVision', 
-        image: 'craft'
-      }],
-      development: [{
-        title: 'Learn Angular fundamentals',
-        image: 'angular'
-      }, {
-        title: 'Build an iOS Application in Swift',
-        image: 'swift'
-      }, {
-        title: 'Build a WordPress Website',
-        image: 'wordpress'
-      }, {
-        title: 'Become a React Native Developer', 
-        image: 'react', 
-        position: 'left'
-      }],
-      design: [{
-        title: 'Learn Sketch',
-        image: 'sketch'
-      }, {
-        title: 'Learn Flinto',
-        image: 'flinto'
-      }, {
-        title: 'Learn Photoshop',
-        image: 'photoshop'
-      }, {
-        title: 'Learn Figma', 
-        image: 'figma'
-      }]
+      title: this.$t('Browse Courses')
     }
   },
   computed: {
+    ...mapGetters({
+      categories: 'categories/categories',
+    }),
+    categoriesByLanguage(){
+      return this.categories.filter(categoryItem => categoryItem.lang == this.$i18n.locale)
+    },
     guest() {
       return true
     },
@@ -161,7 +85,15 @@ export default {
       return this.$root.layoutName === 'fixed' ? 'mobile' : true
     }
   },
-  async asyncData({ app }) {
+  methods: {
+    ...mapActions({
+      loadCategories: 'categories/loadCategories'
+    })
+  },
+  created(){
+    this.loadCategories() 
+  },
+  async asyncData({ app }) { 
     return {
       title: app.i18n.t('Browse Courses')
     }

@@ -156,7 +156,7 @@
       
       <!-- Search -->
       <b-form
-        v-if="navbarSearch" 
+        v-if="false && navbarSearch" 
         class="search-form navbar-search d-none mr-16pt"
         :class="{ 
           'd-lg-flex': guest,
@@ -190,7 +190,7 @@
         </b-nav-item> -->
 
         <template 
-          v-if="guest">
+          v-if="!hasToken">
           <b-nav-item
             v-b-tooltip.hover.bottom="{ title: $t('Login') }" 
             :to="localePath('login')">
@@ -207,7 +207,7 @@
 
         <!-- Messages -->
         <navbar-notifications
-          v-if="!guest"
+          v-if="!guest && false"
           icon="mail_outline"
           icon-class="icon-24pt"
           title="Messages"
@@ -215,7 +215,7 @@
         
         <!-- Notifications -->
         <navbar-notifications
-          v-if="!guest"
+          v-if="!guest && false"
           :badge="true"
           :notifications="notifications" />
 
@@ -242,7 +242,7 @@
 
         <!-- User Dropdown -->
         <b-nav-item-dropdown
-          v-if="!guest"
+          v-if="hasToken"
           v-b-tooltip.hover.bottom="{ title: $t('Account') }"
           right>
           <template slot="button-content">
@@ -260,6 +260,11 @@
             class="form-label">
             {{ $t('Manage') }}
           </b-dropdown-header>
+          <b-dropdown-item v-if="user">
+            <span :style="{ fontWeight: 'bold' }">
+              {{ user.phone }}
+            </span>
+          </b-dropdown-item>
           <b-dropdown-item :to="localePath('account-edit-basic')">
             {{ $t('Edit Account') }}
           </b-dropdown-item>
@@ -326,6 +331,8 @@
   import NavbarNotifications from '~/components/App/Navbar/Notifications'
   import navbarConfigMixin from '~/mixins/navbar-config'
   import layoutConfigMixin from '~/mixins/layout-config'
+
+  import { mapGetters } from 'vuex'
 
   export default {
     components: {
@@ -422,6 +429,10 @@
       }
     },
     computed: {
+      ...mapGetters({
+        hasToken: 'user/hasToken',
+        user: 'user/user'
+      }),
       isInstructor() {
         return this.$nuxt.$route.path.indexOf('instructor') !== -1
       },

@@ -9,72 +9,26 @@
     <ul class="sidebar-menu">
       <li class="sidebar-menu-item active">
         <a href="" class="sidebar-menu-button">
-          <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">code</span>
-          <span class="sidebar-menu-text">Web Development</span>
+          <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">menu_book</span>
+          <span class="sidebar-menu-text">{{ $t('All') }}</span>
         </a>
       </li>
-      <li class="sidebar-menu-item">
+
+      <li class="sidebar-menu-item" v-for="(categoryItem, catInd) in categoriesByLanguage" :key="catInd">
         <a href="" class="sidebar-menu-button">
-          <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">brush</span>
-          <span class="sidebar-menu-text">Design</span>
+          <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">book</span>
+          <span class="sidebar-menu-text">{{ categoryItem.name }}</span>
         </a>
       </li>
-      <li class="sidebar-menu-item">
-        <a href="" class="sidebar-menu-button">
-          <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">settings_cell</span>
-          <span class="sidebar-menu-text">iOS &amp; Swift</span>
-        </a>
-      </li>
-      <li class="sidebar-menu-item">
-        <a href="" class="sidebar-menu-button">
-          <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">android</span>
-          <span class="sidebar-menu-text">Android</span>
-        </a>
-      </li>
-      <li class="sidebar-menu-item">
-        <a href="" class="sidebar-menu-button">
-          <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">business_center</span>
-          <span class="sidebar-menu-text">Business</span>
-        </a>
-      </li>
-      <li class="sidebar-menu-item">
-        <a href="" class="sidebar-menu-button">
-          <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">crop_original</span>
-          <span class="sidebar-menu-text">Photography</span>
-        </a>
-      </li>
-      <li class="sidebar-menu-item">
-        <a href="" class="sidebar-menu-button">
-          <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">payment</span>
-          <span class="sidebar-menu-text">Marketing</span>
-        </a>
-      </li>
-      <li class="sidebar-menu-item">
-        <a href="" class="sidebar-menu-button">
-          <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">store</span>
-          <span class="sidebar-menu-text">eCommerce</span>
-        </a>
-      </li>
-      <li class="sidebar-menu-item">
-        <a href="" class="sidebar-menu-button">
-          <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">redeem</span>
-          <span class="sidebar-menu-text">Health &amp; Fitness</span>
-        </a>
-      </li>
-      <li class="sidebar-menu-item">
-        <a href="" class="sidebar-menu-button">
-          <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">music_note</span>
-          <span class="sidebar-menu-text">Music</span>
-        </a>
-      </li>
+
     </ul>
 
-    <div class="sidebar-heading">Platform</div>
-    <div class="sidebar-block">
+    <div class="sidebar-heading" v-if="false">Platform</div>
+    <div class="sidebar-block" v-if="false">
       <div class="form-group">
         <div class="custom-control custom-checkbox">
           <input class="custom-control-input" type="checkbox" value="" id="filtersCheck01" checked="">
-          <label class="custom-control-label" for="filtersCheck01">All</label>
+          <label class="custom-control-label" for="filtersCheck01">{{ $t('All') }}</label>
         </div>
       </div>
       <div class="form-group">
@@ -110,12 +64,12 @@
       </div>
     </div>
 
-    <div class="sidebar-heading">Subscription</div>
-    <div class="sidebar-block">
+    <div class="sidebar-heading" v-if="false">Subscription</div>
+    <div class="sidebar-block" v-if="false">
       <div class="form-group">
         <div class="custom-control custom-checkbox">
           <input class="custom-control-input" type="checkbox" value="" id="filtersCheck07" checked="">
-          <label class="custom-control-label" for="filtersCheck07">All</label>
+          <label class="custom-control-label" for="filtersCheck07">{{ $t('All') }}</label>
         </div>
       </div>
       <div class="form-group">
@@ -139,12 +93,12 @@
       </div>
     </div>
 
-    <div class="sidebar-heading">Content type</div>
-    <div class="sidebar-block">
+    <div class="sidebar-heading" v-if="false">Content type</div>
+    <div class="sidebar-block" v-if="false">
       <div class="form-group">
         <div class="custom-control custom-checkbox">
           <input class="custom-control-input" type="checkbox" value="" id="filtersCheck11" checked="">
-          <label class="custom-control-label" for="filtersCheck11">All</label>
+          <label class="custom-control-label" for="filtersCheck11">{{ $t('All') }}</label>
         </div>
       </div>
       <div class="form-group">
@@ -179,13 +133,24 @@
         </div>
       </div>
     </div>
+    
   </fmv-sidebar>
 </template>
 
 <script>
   import {FmvSidebar} from 'fmv-layout'
 
+  import { mapGetters, mapActions } from 'vuex'
+
   export default {
+    computed: {
+      ...mapGetters({
+        categories: 'categories/categories',
+      }),
+      categoriesByLanguage(){
+        return this.categories.filter(categoryItem => categoryItem.lang == this.$i18n.locale)
+      }
+    },
     components: {
       FmvSidebar
     }

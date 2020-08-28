@@ -12,11 +12,13 @@
           label-for="firstname"
           label-class="form-label"
           class="m-0"
-          horizontal>
+          horizontal 
+        >
           <b-form-input 
             id="firstname"
             :placeholder="$t('Your first name')"
-            value="Alexander" />
+            value="Alexander"
+            v-model="accountProfile.first_name"/>
         </b-form-group>
       </b-list-group-item>
       <b-list-group-item>
@@ -27,11 +29,14 @@
           label-for="lastname"
           label-class="form-label"
           class="m-0"
-          horizontal>
+          horizontal 
+        >
           <b-form-input 
             id="lastname"
             :placeholder="$t('Your last name')"
-            value="Watson" />
+            value="Watson"
+            v-model="accountProfile.last_name"  
+          />
         </b-form-group>
       </b-list-group-item>
       <b-list-group-item>
@@ -105,22 +110,36 @@
 import Page from '~/components/App/Page'
 import EditAccountPage from '~/components/App/EditAccountPage'
 import EditAccountNav from '~/components/App/EditAccountNav.mixin'
+import { mapGetters } from 'vuex'
 
 export default {
+  middleware: ['auth'],
   components: {
     EditAccountPage
   },
   extends: Page,
   mixins: [EditAccountNav],
-  data() {
-    return {
-      title: 'Basic Information'
-    }
-  },
   computed: {
+    ...mapGetters({
+      user: 'user/user'
+    }),
     headerClass() {
       return 'mb-0'
     }
+  },
+  data() {
+    return {
+      title: 'Basic Information',
+      accountProfile: {
+        first_name: '',
+        last_name: '', 
+        phone: ''
+      },
+      email: '',
+    }
+  },
+  mounted(){
+    this.accountProfile = { ...this.user }
   }
 }
 </script>

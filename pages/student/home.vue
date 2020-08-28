@@ -9,7 +9,7 @@
       <student-home-hero />
     </fmv-box>
 
-    <div class="bg-white border-bottom-2 py-16pt">
+    <div class="bg-white border-bottom-2 py-16pt" v-if="false">
       <div :class="containerClass">
         <div class="row align-items-center">
           <div class="d-flex col-md align-items-center border-bottom border-md-0 mb-16pt mb-md-0 pb-16pt pb-md-0">
@@ -72,17 +72,17 @@
 
     <div class="page-section border-bottom-2">
       <div :class="containerClass">
-        <page-separator>Learning Paths</page-separator>
+        <page-separator>{{ $t('All categories') }}</page-separator>
 
         <div class="row card-group-row">
           <div
-            v-for="item in paths1"
+            v-for="item in categoriesByLanguage"
             :key="item.id" 
             class="col-sm-4 card-group-row__col">
             <account-path-card
               class="card-group-row__card" 
-              :title="item.title" 
-              :image="item.image"
+              :title="item.name" 
+              :image="false ? `${$axios.defaults.baseURL}/${item.file.path}` : '/images/paths/devops_40x40@2x.png'"
               :open="item.open"
               :favorite="item.favorite"
               :account="false"
@@ -110,7 +110,7 @@
     </div>
 
     <div class="page-section border-bottom-2"
-      v-for="(course, index_course) in courses"
+      v-for="(course, index_course) in categoriesByLanguage"
       :key="index_course"
     >
       <div :class="containerClass">
@@ -118,14 +118,14 @@
 
         <div class="row card-group-row">
           <div 
-            v-for="item in course.subcourses"
+            v-for="item in course.courses"
             :key="item.id"
             class="col-md-6 col-lg-4 col-xl-3 card-group-row__col">
             <course-card
               :account="false"
-              :title="item.title" 
-              :image="item.image"
-              :avatar="(item.avatar || item.image)"
+              :title="item.name" 
+              :image="false ? `${$axios.defaults.baseURL}/${item.file.path}` : '/images/paths/devops_430x168.png'"
+              :avatar="item.avatar || '/images/paths/devops_40x40@2x.png'"
               :free="item.free"
               :favorite="item.favorite"
               :position="item.position"
@@ -152,6 +152,8 @@ import CourseCard from '~/components/App/CourseCard'
 import StudentHomeHero from '~/components/App/Student/HomeHero'
 import {FmvBox} from 'fmv-layout'
 
+import { mapGetters, mapActions } from 'vuex'
+
 export default {
   components: {
     PostFeaturedCard,
@@ -163,6 +165,46 @@ export default {
     FmvBox
   },
   extends: Page,
+  computed: {
+    ...mapGetters({
+      categories: 'categories/categories',
+    }),
+    categoriesByLanguage(){
+      return this.categories.filter(categoryItem => categoryItem.lang == this.$i18n.locale)
+    },
+    guest() {
+      return true
+    },
+    localPageHeader() {
+      return this.$root.layoutName !== 'fixed'
+    },
+    headerClass() {
+      if (this.$root.layoutName === 'fixed') {
+        return 'mdk-header--bg-dark bg-dark mb-0'
+      }
+    },
+    headerEffects() {
+      if (this.$root.layoutName === 'fixed') {
+        return 'parallax-background waterfall'
+      }
+    },
+    headerImage() {
+      if (this.$root.layoutName === 'fixed') {
+        return '/images/photodune-4161018-group-of-students-m.jpg'
+      }
+    },
+    headerContentClass() {
+      if (this.$root.layoutName === 'fixed') {
+        return 'justify-content-center'
+      }
+    },
+    headerCondenses() {
+      return this.$root.layoutName === 'fixed'
+    },
+    headerContentComponent() {
+      return StudentHomeHero
+    }
+  },
   data () {
     return {
       title: this.$t('Home'),
@@ -200,16 +242,16 @@ export default {
       //   ],
       //   to: 'community-blog-post'
       // }],
-      paths1: [{
-        title: 'Tarix',
-        image: 'react'
-      }, {
-        title: 'Ona tili',
-        image: 'devops'
-      }, {
-        title: 'Matematika',
-        image: 'redis'
-      }],
+      // paths1: [{
+      //   title: 'Tarix',
+      //   image: 'react'
+      // }, {
+      //   title: 'Ona tili',
+      //   image: 'devops'
+      // }, {
+      //   title: 'Matematika',
+      //   image: 'redis'
+      // }],
       // paths2: [{
       //   title: 'MailChimp',
       //   image: 'mailchimp'
@@ -220,75 +262,49 @@ export default {
       //   title: 'WordPress',
       //   image: 'wordpress'
       // }],
-      courses: [
-        {
-          name: "Tarix",
-          subcourses: [{
-            title: 'Tarix 6-sinf',
-            image: 'sketch'
-          }, {
-            title: 'Tarix 7-sinf',
-            image: 'flinto'
-          }, {
-            title: 'Tarix 8-sinf',
-            image: 'photoshop'
-          }, {
-            title: 'Tarix 9-sinf', 
-            image: 'figma'
-          }]
-        },
-        {
-          name: "Ona tili",
-          subcourses: [{
-            title: 'Ona tili 6-sinf',
-            image: 'sketch'
-          }, {
-            title: 'Ona tili 7-sinf',
-            image: 'flinto'
-          }, {
-            title: 'Ona tili 8-sinf',
-            image: 'photoshop'
-          }, {
-            title: 'Ona tili 9-sinf', 
-            image: 'figma'
-          }]
-        }
-      ]
+      // courses: [
+      //   {
+      //     name: "Tarix",
+      //     subcourses: [{
+      //       title: 'Tarix 6-sinf',
+      //       image: 'sketch'
+      //     }, {
+      //       title: 'Tarix 7-sinf',
+      //       image: 'flinto'
+      //     }, {
+      //       title: 'Tarix 8-sinf',
+      //       image: 'photoshop'
+      //     }, {
+      //       title: 'Tarix 9-sinf', 
+      //       image: 'figma'
+      //     }]
+      //   },
+      //   {
+      //     name: "Ona tili",
+      //     subcourses: [{
+      //       title: 'Ona tili 6-sinf',
+      //       image: 'sketch'
+      //     }, {
+      //       title: 'Ona tili 7-sinf',
+      //       image: 'flinto'
+      //     }, {
+      //       title: 'Ona tili 8-sinf',
+      //       image: 'photoshop'
+      //     }, {
+      //       title: 'Ona tili 9-sinf', 
+      //       image: 'figma'
+      //     }]
+      //   }
+      // ]
     }
   },
-  computed: {
-    guest() {
-      return true
-    },
-    localPageHeader() {
-      return this.$root.layoutName !== 'fixed'
-    },
-    headerClass() {
-      if (this.$root.layoutName === 'fixed') {
-        return 'mdk-header--bg-dark bg-dark mb-0'
-      }
-    },
-    headerEffects() {
-      if (this.$root.layoutName === 'fixed') {
-        return 'parallax-background waterfall'
-      }
-    },
-    headerImage() {
-      if (this.$root.layoutName === 'fixed') {
-        return '/images/photodune-4161018-group-of-students-m.jpg'
-      }
-    },
-    headerContentClass() {
-      if (this.$root.layoutName === 'fixed') {
-        return 'justify-content-center'
-      }
-    },
-    headerCondenses() {
-      return this.$root.layoutName === 'fixed'
-    },
-    headerContentComponent() {
-      return StudentHomeHero
-    }
+  methods: {
+    ...mapActions({
+      loadCategories: 'categories/loadCategories'
+    })
+  },
+  created(){
+    this.loadCategories() 
   },
   async asyncData({ app }) {
     return {

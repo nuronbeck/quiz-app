@@ -76,6 +76,7 @@ import InstructorDashboardSales from '~/components/App/Instructor/Dashboard/Sale
 import InstructorDashboardComments from '~/components/App/Instructor/Dashboard/Comments'
 
 export default {
+  middleware: ['auth', 'teacher'],
   name: 'InstructorDashboard',
   components: {
     InstructorDashboardEarnings,

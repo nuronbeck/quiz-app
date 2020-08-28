@@ -16,6 +16,60 @@ export default {
                     resolve(true)
                 })
             })
+        },
+        verifyUserAccount(modal_title="Account verification", modal_html="Sending verification code..", submitTitle="Please enter the code", confirmBtnText="Submit", cancelBtnText="Cancel", successMessage="Your account successfully verified!", codeEmptyError="Request failed"){
+            Swal.fire({
+                title: modal_title,
+                html: modal_html,
+                timer: 3000,
+                onBeforeOpen: () => {
+                    Swal.showLoading()
+                },
+                onClose: () => {
+
+                }
+            }).then((result) => {
+                this.submitVerificationCode(submitTitle, confirmBtnText, cancelBtnText, successMessage, codeEmptyError)
+            })
+        },
+        submitVerificationCode(modal_title, confirmBtnText, cancelBtnText, successMessage, codeEmptyErr){
+            Swal.fire({
+                title: modal_title,
+                input: 'text',
+                inputAttributes: {
+                    autocapitalize: 'off'
+                },
+                showCancelButton: true,
+                confirmButtonText: confirmBtnText,
+                cancelButtonText: cancelBtnText,
+                showLoaderOnConfirm: true,
+                preConfirm: (login) => {
+                    return fetch(`//api.github.com/users/${login}`)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(response.statusText)
+                        }
+                        return response.json()
+                    })
+                    .catch(error => {
+                        Swal.showValidationMessage(
+                            `${codeEmptyErr}! ${error}`
+                        )
+                    })
+                },
+
+                allowOutsideClick: () => !Swal.isLoading()
+
+                }).then((result) => {
+                if (result.value) {
+                    // Swal.fire({
+                    //     title: `${result.value.login}'s avatar`,
+                    //     imageUrl: result.value.avatar_url
+                    // })
+                    
+                    this.notifyToast(successMessage, 'success')
+                }
+            })
         }
     }
 }

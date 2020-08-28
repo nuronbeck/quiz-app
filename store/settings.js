@@ -2,7 +2,7 @@ export const state = () => ({
   ui: true,
   state: {
     layout: {
-      layout: 'default',
+      layout: 'fixed', //'default',
       rtl: false
     },
     'default::mainDrawer': {
@@ -22,7 +22,7 @@ export const state = () => ({
       sidebar: 'light'
     },
     'default::mainNavbar': {
-      navbar: 'light'
+      navbar: 'dark'//'light'
     },
     'fixed::mainNavbar': {
       navbar: 'dark'
@@ -44,7 +44,7 @@ export const mutations = {
   }
 }
 
-export const actions = {
+export const actions = { 
   setSettings({ commit }, settings) {
     commit('SET_SETTINGS', settings)
   }

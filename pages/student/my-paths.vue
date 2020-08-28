@@ -19,7 +19,7 @@
             card-class="card-group-row__card"
             :title="item.title"
             :description="item.description"
-            :image="item.image"
+            :image="false ? `${$axios.defaults.baseURL}/${item.file.path}` : '/images/paths/devops_40x40@2x.png'"
             :favorite="item.favorite"
             :account="item.account"
             :cta="false"
@@ -41,7 +41,7 @@
           <account-path-card
             class="card-group-row__card"
             :title="item.title" 
-            :image="item.image"
+            :image="false ? `${$axios.defaults.baseURL}/${item.file.path}` : '/images/paths/devops_40x40@2x.png'"
             :open="item.open"
             :favorite="item.favorite"
             :cta="false" />
@@ -62,7 +62,7 @@
           <account-path-card
             class="card-group-row__card"
             :title="item.title" 
-            :image="item.image"
+            :image="false ? `${$axios.defaults.baseURL}/${item.file.path}` : '/images/paths/devops_40x40@2x.png'"
             :open="item.open"
             :favorite="item.favorite"
             :cta="false" />
@@ -115,8 +115,7 @@ export default {
         image: 'redis'
       }, {
         title: 'MailChimp',
-        image: 'mailchimp',
-        open: true,
+        image: 'mailchimp', 
         favorite: true
       }, {
         title: 'Angular',

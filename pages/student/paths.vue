@@ -19,7 +19,7 @@
             class="card-group-row__card" 
             :title="item.title"
             :description="item.description" 
-            :image="item.image"
+            :image="false ? `${$axios.defaults.baseURL}/${item.file.path}` : '/images/paths/devops_40x40@2x.png'"
             :favorite="item.favorite"
             :open="item.open"
             :account="item.account"
@@ -84,7 +84,6 @@ export default {
       }, {
         title: 'MailChimp',
         image: 'mailchimp',
-        open: true,
         favorite: true
       }, {
         title: 'Angular',
