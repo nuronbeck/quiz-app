@@ -1,5 +1,6 @@
 export const state = () => ({
   ui: true,
+  appURI: 'http://quiz.workey.space/',
   state: {
     layout: {
       layout: 'fixed', //'default',
@@ -48,4 +49,8 @@ export const actions = {
   setSettings({ commit }, settings) {
     commit('SET_SETTINGS', settings)
   }
+}
+
+export const getters = {
+  appURI: state => state.appURI
 }

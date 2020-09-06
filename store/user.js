@@ -21,8 +21,8 @@ export const state = () => ({
     }
   }
   
-  export const actions = { 
-    async checkUserAuthToken(){
+  export const actions = {
+    async checkUserAuthToken({ commit }){
       if(localStorage.getItem('auth_token') !== null && localStorage.getItem('auth_token') !== 'undefined'){
         await this.$axios.get('/profile', {
           headers: {
@@ -30,20 +30,23 @@ export const state = () => ({
           }
         })
         .then((response) => { 
-          if(response.status === 200 && response.data.hasOwnProperty('token')){
-            commit('SET_TOKEN', response.data.token)
-            commit('SET_USER', response.data.data) 
+          if(response.status === 200){
+            commit('SET_TOKEN', localStorage.getItem('auth_token'))
+            commit('SET_USER', response.data.data)
           } else {
             commit('SET_TOKEN', null)
             commit('SET_USER', []) 
           }   
         })
         .catch(() => {
-          commit('SET_TOKEN', null) 
+          localStorage.removeItem('auth_token')
+          commit('SET_TOKEN', null)
+          commit('SET_USER', []) 
         })
       } else {
-        commit('SET_TOKEN', null) 
-        commit('SET_LOGIN_LOADING', false)
+        localStorage.removeItem('auth_token')
+        commit('SET_TOKEN', null)
+        commit('SET_USER', [])  
       }
     },
     userLogin({ commit }, payload) {
@@ -85,6 +88,21 @@ export const state = () => ({
         })
         commit('SET_REGISTER_LOADING', false)
       })
+    },
+    async userLogout({ commit }, token) {
+      await this.$axios.get('/logout', {
+        headers: {
+          'Authorization': `Bearer ${ token }`
+        }
+      })
+      .then(() => { 
+        commit('SET_TOKEN', null)
+        commit('SET_USER', [])    
+      })
+      .catch(() => {
+        commit('SET_TOKEN', null)
+        commit('SET_USER', []) 
+      })
     }
   }
 
@@ -92,6 +110,7 @@ export const state = () => ({
     isRegisteringUser: state => state.isUserRegistering,
     isLoggingUser: state => state.isUserLoggingIn,
     user: state => state.user,
+    token: state => state.token,
     hasToken: state => !!state.token,
     isAdmin: state => !!state.user ? state.user.role === 2 : false,
     isTeacher: state => !!state.user ? state.user.role === 1 : false,

@@ -1,3 +1,30 @@
+export const admin = [
+  {
+    label: 'Admin Dashboard',
+    route: 'admin-dashboard',
+    icon: {
+      type: 'md-icon',
+      id: 'dashboard'
+    }
+  },
+  {
+    label: 'Users',
+    route: 'admin-users',
+    icon: {
+      type: 'md-icon',
+      id: 'account_box'
+    }
+  },
+  {
+    label: 'Student Groups',
+    route: 'admin-groups',
+    icon: {
+      type: 'md-icon',
+      id: 'supervised_user_circle'
+    }
+  }
+]
+
 export const student = [{
   label: 'Home',
   route: 'student-home',
@@ -231,6 +258,18 @@ export const communityRoutes = [{
   route: 'community-discussions-ask'
 }]
 
+export const adminMenu = {
+  id: 'adminMenu',
+  label: 'Admin',
+  exact: false,
+  icon: {
+    type: 'md-icon',
+    id: 'admin_panel_settings'
+  },
+  open: false,
+  children: admin
+}
+
 export const studentMenu = {
   id: 'studentMenu',
   label: 'Student',
@@ -292,6 +331,7 @@ export const messagingMenu = {
 }
 
 export const state = () => ({
+  admin,
   student,
   instructor,
 

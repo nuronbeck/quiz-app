@@ -7,15 +7,18 @@
 
     <div class="sidebar-heading">{{ $t('Category') }}</div>
     <ul class="sidebar-menu">
-      <li class="sidebar-menu-item active">
-        <a href="" class="sidebar-menu-button">
+      <li :class="{ 'sidebar-menu-item': true, 'active': categoryFilter === 'all' }">
+        <a href="" @click.prevent="filterCategories('all')" class="sidebar-menu-button">
           <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">menu_book</span>
           <span class="sidebar-menu-text">{{ $t('All') }}</span>
         </a>
       </li>
 
-      <li class="sidebar-menu-item" v-for="(categoryItem, catInd) in categoriesByLanguage" :key="catInd">
-        <a href="" class="sidebar-menu-button">
+      <li class="sidebar-menu-item" 
+        v-for="(categoryItem, catInd) in categoriesByLanguage" :key="catInd"
+        :class="{ 'sidebar-menu-item': true, 'active': categoryFilter === categoryItem.id }"
+      >
+        <a href="" @click.prevent="filterCategories(categoryItem.id)" class="sidebar-menu-button">
           <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">book</span>
           <span class="sidebar-menu-text">{{ categoryItem.name }}</span>
         </a>
@@ -146,9 +149,18 @@
     computed: {
       ...mapGetters({
         categories: 'categories/categories',
+        categoryFilter: 'categories/categoryFilter'
       }),
       categoriesByLanguage(){
         return this.categories.filter(categoryItem => categoryItem.lang == this.$i18n.locale)
+      }
+    },
+    methods: {
+      ...mapActions({
+        setCategoriesFilter: 'categories/setCategoriesFilter'
+      }),
+      filterCategories(categoryFilter){
+        this.setCategoriesFilter(categoryFilter)
       }
     },
     components: {

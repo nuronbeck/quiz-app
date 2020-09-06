@@ -1,6 +1,7 @@
 export const state = () => ({
     categories: [],
-    isCategoriesLoading: false
+    isCategoriesLoading: false,
+    categoryFilter: 'all'
 })
 
 export const mutations = {
@@ -9,10 +10,16 @@ export const mutations = {
     },
     SET_CATEGORIES(state, categories_data) {
         state.categories = categories_data
+    },
+    SET_CATEGORIES_FILTER(state, categoryMatcher){
+        state.categoryFilter = categoryMatcher
     }
 }
 
 export const actions = {
+    setCategoriesFilter({ commit }, filterMatcher){
+        commit('SET_CATEGORIES_FILTER', filterMatcher)
+    },
     async loadCategories({ commit }) {
         commit('SET_CATEGORIES_LOADING', true)
         return await this.$axios.get(`/public-categories`).then((response) => { 
@@ -27,5 +34,7 @@ export const actions = {
 
 export const getters = {
     categories: state => state.categories,
+    categoryFilter: state => state.categoryFilter,
+    categoriesFiltered: state => state.categoryFilter === 'all' ? state.categories : state.categories.filter(categoryItem => categoryItem.id == state.categoryFilter ),
     categoriesIsLoading: state => state.isCategoriesLoading
 }

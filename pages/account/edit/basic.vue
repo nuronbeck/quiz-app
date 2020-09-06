@@ -7,6 +7,24 @@
       <b-list-group-item>
         <b-form-group
           :label-cols="3"
+          :label="$t('Your phone number')"
+          breakpoint="md"
+          label-for="phone_number"
+          label-class="form-label"
+          class="m-0"
+          horizontal 
+        >
+          <b-form-input 
+            id="phone_number"
+            :placeholder="$t('Your phone number')"
+            value="Alexander"
+            v-model="accountProfile.phone"/>
+        </b-form-group>
+      </b-list-group-item>
+
+      <b-list-group-item>
+        <b-form-group
+          :label-cols="3"
           :label="$t('First name')"
           breakpoint="md"
           label-for="firstname"
@@ -39,7 +57,8 @@
           />
         </b-form-group>
       </b-list-group-item>
-      <b-list-group-item>
+
+      <b-list-group-item v-if="false">
         <b-form-group
           :label-cols="3"
           :label="$t('Your email address')"
@@ -59,6 +78,7 @@
           </fmv-input-group-merge>
         </b-form-group>
       </b-list-group-item>
+
     </b-list-group>
 
     <h4>{{ $t('Change Password') }}</h4>

@@ -46,7 +46,6 @@
           center /> -->
 
         <b-form
-          validated
           method="post"
         >
           <div v-if="loginError !== ''" class="alert alert-danger text-center" role="alert">
@@ -57,7 +56,7 @@
             :state="!$v.loginData.phone.$invalid"
             label-for="phone"
             label-class="form-label"
-            invalid-feedback="*Fill phone number and make sure used right credentials!"
+            :invalid-feedback="$t('*Fill phone number and make sure used right credentials!')"
           >
             <fmv-input-group-merge
               id="phone"
@@ -78,7 +77,7 @@
             :state="!$v.loginData.password.$invalid"
             label-for="password"
             label-class="form-label"
-            invalid-feedback="*Fill password and male sure used right credentials!"
+            :invalid-feedback="$t('*Fill password and make sure used right credentials!')"
           >
             <fmv-input-group-merge
               id="password"
@@ -127,38 +126,6 @@
   </div>
 </template>
 
-
-<i18n locale="ru">
-  {
-    "Login error! Please check data or try again.": "Ошибка авторизации! Проверьте данные или попробуйте позже.",
-    "Continue with Google": "Войти с помощью Google",
-    "or": "или",
-    "Your phone number": "Номер телефона",
-    "Your password": "Пароль",
-    "Have an account?": "У вас уже есть аккаунт?",
-    "Access your account": "Доступ к вашему аккаунту",
-    "Not yet a student?": "Еще не студент?",
-    "Sign up": "Зарегистрироваться",
-    "Forgot Password?": "Забыли пароль?",
-    "Successfully logged!": "Вход в аккаунт прошла успешно!"
-  }
-</i18n>
-
-<i18n locale="uz">
-  {
-    "Login error! Please check data or try again.": "Kirish o'xshamadi! Ma'lumotlaringizni tekshiring yoki keyinroq urinib ko'ring.",
-    "Continue with Google": "Google orqali kirish",
-    "or": "yoki",
-    "Your phone number": "Telefon raqamingiz",
-    "Your password": "Parolingiz",
-    "Have an account?": "Akkauntingiz bormi?",
-    "Access your account": "Akkauntingizga kirish huquqi",
-    "Not yet a student?": "Hali ham student emasmisiz?",
-    "Sign up": "Ro'yxatdan o'tish",
-    "Forgot Password?": "Parolni unutdingizmi?",
-    "Successfully logged!": "Shaxsiy kabinetingizga muvaffaqiyatli kirdingiz!"
-  }
-</i18n>
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
@@ -213,15 +180,16 @@ export default {
         await this.userLogin(this.loginData).then(() => {
           this.notifyToast(this.$t('Successfully logged!'), 'success').then(() => {
             setTimeout(() => {
+              if (this.user.role == 2) {
+                this.$router.push(this.localePath({ name: "admin-dashboard" }))
+              }
               if(self.user.role == 0){ 
                 self.$router.push({ name: `student-dashboard___${self.$i18n.locale}` }) 
               } 
               // if (this.user.role == 1) {
               //   this.$router.push({ name: `teacher-dashboard___${this.selectedLanguage.code}` })
               // } 
-              // if (this.user.role == 2) {
-              //   this.$router.push({ name: `admin-dashboard___${this.selectedLanguage.code}` })
-              // }
+              
             }, 250)
           })
           

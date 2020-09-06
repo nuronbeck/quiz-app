@@ -1,15 +1,17 @@
 export const state = () => ({
     isStatesLoading: false,
     isRegionsLoading: false,
+    isDistrictsLoading: false,
     states: [],
-    regions: []
+    regions: [],
+    districts: []
 })
   
 export const mutations = {
     SET_STATES_LOADING(state, loading_boolean){
         state.isStatesLoading = loading_boolean
     },
-    SET_STATES (state, states) {
+    SET_STATES (state, states){
         state.states = states
     },
     SET_REGIONS_LOADING(state, loading_boolean){
@@ -17,6 +19,12 @@ export const mutations = {
     },
     SET_REGIONS (state, regions) {
         state.regions = regions
+    },
+    SET_DISTRICTS_LOADING(state, loading_boolean){
+        state.isDistrictsLoading = loading_boolean
+    },
+    SET_DISTRICTS(state, districts) {
+        state.districts = districts
     }
 }
 
@@ -40,6 +48,16 @@ export const actions = {
             commit('SET_STATES', [])
             commit('SET_REGIONS_LOADING', false)
         }) 
+    },
+    async loadDistricts({ commit }, region_id) {
+        commit('SET_DISTRICTS_LOADING', true)
+        return await this.$axios.get(`/region/${region_id}/district`).then((response) => { 
+            commit('SET_DISTRICTS', response.data) 
+            commit('SET_DISTRICTS_LOADING', false)
+        }).catch(() => {
+            commit('SET_DISTRICTS', [])
+            commit('SET_DISTRICTS_LOADING', false)
+        }) 
     }
 }
 
@@ -47,6 +65,8 @@ export const getters = {
     states: state => state.states,
     statesIsLoading: state => state.isStatesLoading,
     regions: state => state.regions,
-    regionsIsLoading: state => state.isRegionsLoading
+    regionsIsLoading: state => state.isRegionsLoading,
+    districts: state => state.districts,
+    districtsIsLoading: state => state.isDistrictsLoading
 }
   

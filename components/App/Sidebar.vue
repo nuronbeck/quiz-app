@@ -40,7 +40,12 @@
         v-text="$store.state.brand" />
     </span>
 
-    <div class="sidebar-heading">Student</div>
+    <div class="sidebar-heading">{{ $t('Admin') }}</div>
+    <fmv-sidebar-menu
+      :menu="i18nMenu.admin"
+      class="mb-24pt" />
+
+    <div class="sidebar-heading">{{ $t('Student') }}</div>
     <fmv-sidebar-menu
       :menu="i18nMenu.student"
       class="mb-24pt" />
