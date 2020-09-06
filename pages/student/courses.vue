@@ -19,10 +19,10 @@
             class="col-md-6 col-lg-4 col-xl-3 card-group-row__col">
             <course-card
               :title="item.name"
-              :image="false ? `${$axios.defaults.baseURL}/${item.file.path}` : '/images/paths/devops_430x168.png'"
-              :avatar="item.avatar || '/images/paths/devops_40x40@2x.png'"
-              :free="item.free"
-              :favorite="item.favorite"
+              :image="true ? `${$store.getters['settings/appURI']}/${course.file.path}` : '/images/paths/devops_430x168.png'"
+              :avatar="item.avatar || '/images/paths/redis_40x40@2x.png'"
+              :free="false"
+              :favorite="false"
               :position="item.position"
               :open="item.open"
               :author-avatar="item.author_avatar"
@@ -62,10 +62,10 @@ export default {
   },
   computed: {
     ...mapGetters({
-      categories: 'categories/categories',
+      categoriesFiltered: 'categories/categoriesFiltered',
     }),
     categoriesByLanguage(){
-      return this.categories.filter(categoryItem => categoryItem.lang == this.$i18n.locale)
+      return this.categoriesFiltered.filter(categoryItem => categoryItem.lang == this.$i18n.locale)
     },
     guest() {
       return true
@@ -91,7 +91,7 @@ export default {
     })
   },
   created(){
-    this.loadCategories() 
+    this.loadCategories()
   },
   async asyncData({ app }) { 
     return {

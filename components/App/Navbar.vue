@@ -260,7 +260,7 @@
             class="form-label">
             {{ $t('Manage') }}
           </b-dropdown-header>
-          <b-dropdown-item v-if="user">
+          <b-dropdown-item v-if="hasToken" :to="isStudent ? localePath('student-dashboard') : false ">
             <span :style="{ fontWeight: 'bold' }">
               {{ user.phone }}
             </span>
@@ -275,7 +275,7 @@
           <b-dropdown-item :to="localePath('community-student-profile')">
             <md-icon>person</md-icon> {{ $t('Public Profile') }}
           </b-dropdown-item>
-          <b-dropdown-item :to="localePath('login')">
+          <b-dropdown-item @click="logout">
             <md-icon>lock</md-icon> {{ $t('Logout') }}
           </b-dropdown-item>
         </b-nav-item-dropdown>
@@ -332,7 +332,7 @@
   import navbarConfigMixin from '~/mixins/navbar-config'
   import layoutConfigMixin from '~/mixins/layout-config'
 
-  import { mapGetters } from 'vuex'
+  import { mapGetters, mapActions } from 'vuex'
 
   export default {
     components: {
@@ -430,8 +430,10 @@
     },
     computed: {
       ...mapGetters({
+        token: 'user/token',
         hasToken: 'user/hasToken',
-        user: 'user/user'
+        user: 'user/user',
+        isStudent: 'user/isStudent'
       }),
       isInstructor() {
         return this.$nuxt.$route.path.indexOf('instructor') !== -1
@@ -451,8 +453,16 @@
       }
     },
     methods: {
+      ...mapActions({
+        userLogout: 'user/userLogout'
+      }),
       flag(locale) {
         return locale === 'en' ? 'us' : locale
+      },
+      logout(){
+        this.userLogout(this.token).then(() => {
+          this.$router.push(this.localePath('/'))
+        })
       }
     }
   }

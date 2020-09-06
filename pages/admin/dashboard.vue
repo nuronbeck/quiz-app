@@ -78,9 +78,9 @@ import InstructorDashboardComments from '~/components/App/Instructor/Dashboard/C
 export default {
   middleware: [
     'auth', 
-    //'teacher'
+    'admin'
   ],
-  name: 'InstructorDashboard',
+  name: 'AdminDashboard',
   components: {
     InstructorDashboardEarnings,
     InstructorDashboardTransactions,

@@ -63,6 +63,7 @@
               @input="changeUserLanguage" 
               v-model="selectedLanguage"
               :clearable="false"
+              :searchable="false"
             >
               <template slot="option" slot-scope="option">
                 <div class="d-center">
@@ -103,7 +104,6 @@
             :invalid-feedback="'*' + $t('Select your country')"
           >
               <v-select
-                class="border-danger"
                 :options="this.$i18n.locale == 'en' ? [...states] : [...states.filter(stateItem => stateItem.lang == this.$i18n.locale)]"
                 label="name"
                 v-model="selectedCountry"
@@ -112,12 +112,26 @@
               >
                 <template slot="option" slot-scope="option">
                   <div class="d-center">
+                    <fmv-avatar 
+                      :src="require(`~/node_modules/svg-country-flags/svg/${flag(option.flag)}.svg`)" 
+                      :alt="$i18n.locale"
+                      size="xs"
+                      circle
+                      no-link
+                    />
                     {{ option.name }}
                     </div>
                 </template>
 
                 <template slot="selected-option" slot-scope="option">
                   <div class="selected d-center">
+                    <fmv-avatar 
+                      :src="require(`~/node_modules/svg-country-flags/svg/${flag(option.flag)}.svg`)" 
+                      :alt="$i18n.locale"
+                      size="xs"
+                      circle
+                      no-link
+                    />
                     {{ option.name }}
                   </div>
                 </template>
@@ -129,7 +143,7 @@
             v-if="selectedCountry !== null"
             :label="`${$t('Select your region')}:`"
             label-class="form-label"
-            :state="!$v.newUser.address_id.$invalid"
+            :state="selectedRegion !== null"
             :invalid-feedback="'*' + $t('Select your region')"
           >
               <v-select
@@ -137,17 +151,45 @@
                 :options="[...regions]"
                 label="name"
                 v-model="selectedRegion"
-                @input="selectedRegion === null ? newUser.address_id = null : newUser.address_id = selectedRegion.id"
+                @input="changedRegion"
                 :disabled="selectedCountry == null"
                 :loading="regionsIsLoading"
               >
-              <template slot="option" slot-scope="option">
-                <div class="d-center"> 
-                  {{ option.name }}
-                  </div>
-              </template>
+                <template slot="option" slot-scope="option">
+                  <div class="d-center"> 
+                    {{ option.name }}
+                    </div>
+                </template>
               </v-select> 
           </b-form-group> 
+
+
+
+          <b-form-group
+            v-if="selectedRegion !== null"
+            :label="`${$t('Select your district')}:`"
+            label-class="form-label"
+            :state="!$v.newUser.address_id.$invalid"
+            :invalid-feedback="'*' + $t('Select your district')"
+          >
+              <v-select
+                class="border-danger"
+                :options="[...districts]"
+                label="name"
+                v-model="selectedDistrict"
+                @input="selectedDistrict === null ? newUser.address_id = null : newUser.address_id = selectedDistrict.id"
+                :disabled="selectedRegion == null"
+                :loading="districtsIsLoading"
+              >
+                <template slot="option" slot-scope="option">
+                  <div class="d-center"> 
+                    {{ option.name }}
+                    </div>
+                </template>
+              </v-select> 
+          </b-form-group> 
+
+          
           
           
           <b-form-group
@@ -294,63 +336,6 @@
   </div>  
 </template>
 
-<i18n locale="ru">
-  {
-    "Server Error! Please try again or try another phone number!": "Ошибка сервера! Пожалуйста, попробуйте еще раз или попробуйте другой номер телефона!",
-    "Registered successfully! Congratulations!": "Поздравляем! Вы успешно зарегистрированы!",
-    "*Last name is required": "*Фамилия является обязательным полем",
-    "*First name is required": "*Имя является обязательным полем",
-    "*Phone is required. (Format +998XXZZZXXXX)": "*Телефон является обязательным полем. (Формат: +998XXZZZXXXX)",
-    "*Password is required. (min. 6, max. 16 symbols)": "*Пароль является обязательным полем. (мин. 6, макс. 16 символов)",
-    "*Rewrite password again.": "Повторите пароль",
-    "Choose your language": "Выберите язык",
-    "Validation error! Please check the registration fields filled correctly!": "Ошибка валидации данных! Пожалуйста, проверьте правильность заполнения всех полей!",
-    "Select your country": "Выберите страну",
-    "Select your region": "Выберите регион",
-    "Create a new account": "Создать новый аккаунт",
-    "Continue with Google": "Продолжить с Google",
-    "or": "или",
-    "First name": "Имя",
-    "Your first name": "Ваше имя",
-    "Last name": "Фамилия",
-    "Your last name": "Ваше фамилия",
-    "Your phone number": "Ваш номер телефона",
-    "Your password": "Новый пароль",
-    "Confirm password": "Подтверждение пароля",
-    "I agree to the": "Соглашаюсь с",
-    "Terms of Use": "условием использования сервиса",
-    "Already signed up?": "Уже зарегистрированы?"
-  }
-</i18n>
-
-<i18n locale="uz">
-  {
-    "Server Error! Please try again or try another phone number!": "Serverda xatolik! Iltimos, qaytadan urinib ko'ring yoki boshqa telefon raqam kiritib ko'ring!",
-    "Registered successfully! Congratulations!": "Tabriklaymiz! Siz muvaffaqiyatli ro'yxatdan o'tdingiz!",
-    "*Last name is required": "*Familiya kiritilishi shart",
-    "*First name is required": "*Ism kiritilishi shart",
-    "*Phone is required. (Format +998XXZZZXXXX)": "*Telefon kiritilishi shart. (Format: +998XXZZZXXXX)",
-    "*Password is required. (min. 6, max. 16 symbols)": "*Parol kiritilishi shart. (min. 6, maks. 16 simvolgacha)",
-    "*Rewrite password again.": "Parolni takrorlang",
-    "Choose your language": "Tilni tanlang",
-    "Validation error! Please check the registration fields filled correctly!": "Iltimos ro'yxatdan o'tish joylarini to'g'ri to'ldirilganligingizni tekshiring!",
-    "Select your country": "Davlatni tanlang",
-    "Select your region": "Viloyatni tanlang",
-    "Create a new account": "Yangi akkaunt yaratish",
-    "Continue with Google": "Google orqali davom etish",
-    "or": "yoki",
-    "First name": "Ism",
-    "Your first name": "Sizning ismingiz",
-    "Last name": "Familiya",
-    "Your last name": "Sizning familiyangiz",
-    "Your phone number": "Telefon raqamingiz",
-    "Your password": "Parolingiz",
-    "Confirm password": "Parolni tasdiqlash",
-    "I agree to the": "Foydalanish shartlariga",
-    "Terms of Use": "rozilik beraman",
-    "Already signed up?": "Ro'yxatdan o'tganmisiz?"
-  }
-</i18n>
 
 <script>
 import { locales } from '~/config/i18n'
@@ -373,6 +358,8 @@ export default {
       statesIsLoading: 'regions/statesIsLoading',
       regions: 'regions/regions',
       regionsIsLoading: 'regions/regionsIsLoading',
+      districts: 'regions/districts',
+      districtsIsLoading: 'regions/districtsIsLoading',
       isRegisteringUser: 'user/isRegisteringUser',
       user: 'user/user'
     }),
@@ -387,6 +374,7 @@ export default {
       termsAgreement: false,
       selectedCountry: null, 
       selectedRegion: null,
+      selectedDistrict: null,
       selectedLanguage: null,
       newUser: {
         lang: null,
@@ -442,11 +430,21 @@ export default {
     ...mapActions({
       loadStates: 'regions/loadStates',
       loadRegions: 'regions/loadRegions',
+      loadDistricts: 'regions/loadDistricts',
       userRegister: 'user/userRegister'
     }),
     changedCountry(){
+      this.selectedRegion = null
       if(this.selectedCountry !== null){ 
         this.loadRegions(this.selectedCountry.id)
+      }else {
+        this.newUser.address_id = null
+      }
+    },
+    changedRegion(){
+      this.selectedDistrict = null
+      if(this.selectedCountry !== null && this.selectedRegion !== null){
+        this.loadDistricts(this.selectedRegion.id)
       }else {
         this.newUser.address_id = null
       }

@@ -52,6 +52,8 @@ module.exports = {
   ** Plugins to load before mounting the App
   */
   plugins: [
+    '~/plugins/nuxt-init.client.js',
+    { src: '~/plugins/vue-good-table', ssr: false },
     '~/plugins/vendor.js',
     { src: '~plugins/quill', ssr: false },
     { src: '~/plugins/vuelidate' }

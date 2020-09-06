@@ -17,6 +17,6 @@ export default function({ req, store }) {
       deepKeys(settings).includes(e)
     )
 
-    store.dispatch('settings/setSettings', settings)
+    store.dispatch('settings/setSettings', settings) 
   }
 }

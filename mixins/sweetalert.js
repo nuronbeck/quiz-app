@@ -70,6 +70,31 @@ export default {
                     this.notifyToast(successMessage, 'success')
                 }
             })
+        },
+        takeImageLook(image_href){
+            Swal.fire({
+                imageUrl: image_href,
+                imageWidth: 300,
+                imageHeight: 300
+            })
+        },
+        removeUserSuggestion(userData){
+            Swal.fire({
+                title: this.$t('Are you sure?'),
+                text: "You won't be able to revert this!",
+                icon: 'error',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                confirmButtonText: this.$t('Yes, delete it!')
+              }).then((result) => {
+                if (result.value) {
+                  Swal.fire(
+                    this.$t('Deleted!'),
+                    this.$t('User has been deleted.'),
+                    'success'
+                  )
+                }
+              })
         }
     }
 }

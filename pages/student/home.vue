@@ -82,7 +82,7 @@
             <account-path-card
               class="card-group-row__card" 
               :title="item.name" 
-              :image="false ? `${$axios.defaults.baseURL}/${item.file.path}` : '/images/paths/devops_40x40@2x.png'"
+              :image="false ? `${$store.getters['settings/appURI']}/${item.file.path}` : '/images/paths/devops_40x40@2x.png'"
               :open="item.open"
               :favorite="item.favorite"
               :account="false"
@@ -124,8 +124,8 @@
             <course-card
               :account="false"
               :title="item.name" 
-              :image="false ? `${$axios.defaults.baseURL}/${item.file.path}` : '/images/paths/devops_430x168.png'"
-              :avatar="item.avatar || '/images/paths/devops_40x40@2x.png'"
+              :image="true ? `${$store.getters['settings/appURI']}/${course.file.path}` : '/images/paths/devops_430x168.png'"
+              :avatar="item.avatar || '/images/paths/redis_40x40@2x.png'"
               :free="item.free"
               :favorite="item.favorite"
               :position="item.position"
@@ -304,7 +304,10 @@ export default {
     })
   },
   created(){
-    this.loadCategories() 
+    this.loadCategories()
+    .then(() => {
+      console.log(this.categories)
+    })
   },
   async asyncData({ app }) {
     return {
