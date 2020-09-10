@@ -52,11 +52,11 @@
             </span>
           </div>
           <div v-if="props.column.field == 'actionsHtml'">
-            <span :style="{ cursor: 'pointer' }">
+            <span :style="{ cursor: 'pointer', userSelect: 'none' }">
               <md-icon class="text-primary">edit</md-icon>
             </span>
-            <span :style="{ cursor: 'pointer' }"
-              @click="removeUserSuggestion(props.row)"
+            <span :style="{ cursor: 'pointer', userSelect: 'none' }"
+              @click="removeUserAction(props.row)"
             >
               <md-icon class="text-danger">delete</md-icon>
             </span>
@@ -105,6 +105,7 @@ export default {
           label: this.$t('Avatar'),
           field: 'avatar',
           sortable: false,
+          globalSearchDisabled: true,
           thClass: 'text-center',
           tdClass: 'text-center',
         },
@@ -143,6 +144,7 @@ export default {
           label: this.$t('Actions'), 
           field: 'actionsHtml',
           sortable: false,
+          globalSearchDisabled: true,
           thClass: 'text-center',
           tdClass: 'text-center'
         }
@@ -152,19 +154,36 @@ export default {
   },
   methods: {
     ...mapActions({
-      loadAllUsers: 'users/loadAllUsers'
-    })
+      loadAllUsers: 'admin/loadAllUsers'
+    }),
+    fillUsersTable(){
+      this.loadAllUsers()
+      .then(() => {
+        this.rows = [...this.users]
+      })
+    },
+    async removeUserAction(user){ 
+      let userPayload = { ...user }
+      this.removeUserSuggestion(userPayload)
+      .then(() => {
+        this.$store.dispatch('admin/removeUser', userPayload.id)
+        .then(() => {
+          this.notifyToast(this.$t('User has been deleted.'), 'success')
+          this.fillUsersTable()
+        })
+        .catch(() => {
+          this.notifyToast(this.$t('User has not been deleted.'), 'error')
+        })
+      })
+    }
   },
   mounted(){
-    this.loadAllUsers()
-    .then(() => {
-      this.rows = [...this.users]
-    })
+    this.fillUsersTable()
   },
   computed: {
     ...mapGetters({
-      users: 'users/users',
-      usersIsLoading: 'users/usersIsLoading'
+      users: 'admin/users',
+      usersIsLoading: 'admin/usersIsLoading'
     })
   }
 }

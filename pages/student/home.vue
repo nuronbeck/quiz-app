@@ -42,35 +42,8 @@
         </div>
       </div>
     </div>
-
-    <!-- <div class="page-section border-bottom-2">
-      <div :class="containerClass">
-
-        <page-separator>From the blog</page-separator>
-
-        <div class="row card-group-row">
-          <div 
-            v-for="item in blogPosts1"
-            :key="item.id"
-            class="col-md-6 col-lg-4 card-group-row__col">
-            <post-featured-card
-              :item="item"
-              class="card-group-row__card" />
-          </div>
-        </div>
-
-        <div class="posts-cards">
-          <post-card
-            v-for="item in blogPosts2"
-            :key="item.id"
-            :item="item"
-            class="mb-0" />
-        </div>
-
-      </div>
-    </div> -->
-
-    <div class="page-section border-bottom-2">
+    
+    <div class="page-section border-bottom-2 pt-5 mt-5">
       <div :class="containerClass">
         <page-separator>{{ $t('All categories') }}</page-separator>
 
@@ -82,7 +55,7 @@
             <account-path-card
               class="card-group-row__card" 
               :title="item.name" 
-              :image="false ? `${$store.getters['settings/appURI']}/${item.file.path}` : '/images/paths/devops_40x40@2x.png'"
+              :image="false ? `${$store.getters['settings/appURI']}/${item.file.path}` : '/images/paths/redis_40x40@2x.png'"
               :open="item.open"
               :favorite="item.favorite"
               :account="false"

@@ -10,10 +10,10 @@
       class="page-section">
 
       <page-separator
-        :title="$t('Users')" />
+        :title="$t('Region cities')" />
       
       <b-card no-body>
-        <all-users-table />
+        <region-cities-table />
       </b-card>
 
     </div>
@@ -22,7 +22,8 @@
 
 <script>
   import Page from '~/components/App/Page'
-  import AllUsersTable from '~/components/App/Admin/AllUsersTable'
+  import RegionCitiesTable from '~/components/App/Admin/RegionCitiesTable'
+  import { mapActions, mapGetters } from 'vuex'
 
   export default {
     middleware: [
@@ -30,17 +31,20 @@
       'admin'
     ],
     components: {
-      AllUsersTable
+      RegionCitiesTable
     },
     extends: Page,
+    validate({ params, store }) {
+      return /^\d+$/.test(params.id)
+    },
     data() {
       return {
-        title: this.$t('Users')
+        title: this.$t('Region cities')
       }
     },
     async asyncData({ app }) {
       return {
-        title: app.i18n.t('Users')
+        title: app.i18n.t('Region cities')
       }
     }
   }

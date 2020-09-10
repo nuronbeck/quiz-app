@@ -11,9 +11,9 @@ export default {
                     type: type,
                     title: title,
                     showConfirmButton: false,
-                    timer: 2500
+                    timer: 2200
                 }).then(() => {
-                    resolve(true)
+                    setTimeout(() => resolve(true), 300)
                 })
             })
         },
@@ -79,22 +79,48 @@ export default {
             })
         },
         removeUserSuggestion(userData){
-            Swal.fire({
-                title: this.$t('Are you sure?'),
-                text: "You won't be able to revert this!",
-                icon: 'error',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                confirmButtonText: this.$t('Yes, delete it!')
-              }).then((result) => {
-                if (result.value) {
-                  Swal.fire(
-                    this.$t('Deleted!'),
-                    this.$t('User has been deleted.'),
-                    'success'
-                  )
-                }
-              })
+            return new Promise((resolve, reject) => {
+                Swal.fire({
+                    title: this.$t('Are you sure?'),
+                    html: this.$t('User with number <b>%{phone}</b></br> (%{first_name} %{last_name}) </br> and all related with it the data will be permanently deleted!', {
+                        phone: userData.phone,
+                        first_name: userData.first_name,
+                        last_name: userData.last_name
+                    }),
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    confirmButtonText: this.$t('Yes, delete it!'),
+                    cancelButtonText: this.$t('Cancel')
+                }).then((result) => {
+                    if (result.value) {
+                        resolve(true)
+                    } else {
+                        reject(false)
+                    }
+                })
+            })
+        },
+        removeStateSuggestion(statePayload){
+            return new Promise((resolve, reject) => {
+                Swal.fire({
+                    title: this.$t('Are you sure?'),
+                    html: this.$t('State <b> %{name} </b> and all related with it the data will be permanently deleted!', {
+                        name: statePayload.name
+                    }),
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    confirmButtonText: this.$t('Yes, delete it!'),
+                    cancelButtonText: this.$t('Cancel')
+                }).then((result) => {
+                    if (result.value) {
+                        resolve(true)
+                    } else {
+                        reject(false)
+                    }
+                })
+            })
         }
     }
 }
