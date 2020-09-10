@@ -10,10 +10,17 @@
       class="page-section">
 
       <page-separator
-        :title="$t('Users')" />
+        :title="$t('Locations')" />
+
+      <div class="d-flex justify-content-end pb-3">
+        <button class="btn btn-primary" @click="$router.push(localePath('admin-locations-add'))">
+          <md-icon>add</md-icon>
+          {{ $t('Add') }}
+        </button>
+      </div>
       
-      <b-card no-body>
-        <all-users-table />
+      <b-card no-body> 
+        <all-states-table />
       </b-card>
 
     </div>
@@ -22,7 +29,7 @@
 
 <script>
   import Page from '~/components/App/Page'
-  import AllUsersTable from '~/components/App/Admin/AllUsersTable'
+  import AllStatesTable from '~/components/App/Admin/AllStatesTable'
 
   export default {
     middleware: [
@@ -30,17 +37,20 @@
       'admin'
     ],
     components: {
-      AllUsersTable
+      AllStatesTable
     },
     extends: Page,
     data() {
       return {
-        title: this.$t('Users')
+        title: this.$t('Locations')
       }
+    },
+    methods: {
+
     },
     async asyncData({ app }) {
       return {
-        title: app.i18n.t('Users')
+        title: app.i18n.t('Locations')
       }
     }
   }

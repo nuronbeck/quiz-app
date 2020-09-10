@@ -260,7 +260,7 @@
             class="form-label">
             {{ $t('Manage') }}
           </b-dropdown-header>
-          <b-dropdown-item v-if="hasToken" :to="isStudent ? localePath('student-dashboard') : false ">
+          <b-dropdown-item v-if="hasToken" :to="isStudent ? localePath('student-dashboard') : isTeacher ? localePath('instructor-dashboard') : isAdmin ? localePath('admin-dashboard') : localePath('/') ">
             <span :style="{ fontWeight: 'bold' }">
               {{ user.phone }}
             </span>
@@ -433,7 +433,9 @@
         token: 'user/token',
         hasToken: 'user/hasToken',
         user: 'user/user',
-        isStudent: 'user/isStudent'
+        isAdmin: 'user/isAdmin',
+        isTeacher: 'user/isTeacher',
+        isStudent: 'user/isStudent',
       }),
       isInstructor() {
         return this.$nuxt.$route.path.indexOf('instructor') !== -1
