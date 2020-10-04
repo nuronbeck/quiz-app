@@ -15,14 +15,14 @@ export const admin = [
       id: 'account_box'
     }
   },
-  // {
-  //   label: 'Student Groups',
-  //   route: 'admin-groups',
-  //   icon: {
-  //     type: 'md-icon',
-  //     id: 'supervised_user_circle'
-  //   }
-  // },
+  {
+    label: 'Student Groups',
+    route: 'admin-groups',
+    icon: {
+      type: 'md-icon',
+      id: 'supervised_user_circle'
+    }
+  },
   {
     label: 'Locations',
     route: 'admin-locations',
@@ -37,6 +37,14 @@ export const admin = [
     icon: {
       type: 'md-icon',
       id: 'category'
+    }
+  },
+  {
+    label: 'Test catalogs',
+    route: 'admin-testCatalogs',
+    icon: {
+      type: 'md-icon',
+      id: 'done_all'
     }
   }
 ]

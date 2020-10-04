@@ -138,32 +138,49 @@ export const state = () => ({
     },
     async loadRegions({ commit }, state_id) {
         commit('SET_REGIONS_LOADING', true)
-        return await this.$axios.get(`/admin/state/${state_id}/region`, {
+        return await this.$axios.get(`/state/${state_id}/region`, {
             headers: {
                 'Authorization': `Bearer ${ localStorage.getItem('auth_token') }`
             }
         })
         .then((response) => { 
-            commit('SET_REGIONS', response.data) 
-            commit('SET_REGIONS_LOADING', false)
+            commit('SET_REGIONS', response.data)
+            setTimeout(() => commit('SET_REGIONS_LOADING', false), 500)
         }).catch(() => {
-            commit('SET_STATES', [])
-            commit('SET_REGIONS_LOADING', false)
+            commit('SET_REGIONS', [])
+            setTimeout(() => commit('SET_REGIONS_LOADING', false), 500)
         }) 
+    },
+    async removeRegion({ commit }, region_id){
+        return await this.$axios.delete(`/admin/region/${region_id}`, {
+            headers: {
+                'Authorization': `Bearer ${ localStorage.getItem('auth_token') }`
+            }
+        })
+        .then(({status}) => {
+            if(status === 200){
+                return true 
+            } else {
+                throw new Error("Error");
+            }
+        })
+        .catch(error => {
+            throw new Error(`Error: ${error}`);
+        })
     },
     async loadDistricts({ commit }, region_id) {
         commit('SET_DISTRICTS_LOADING', true)
-        return await this.$axios.get(`/admin/region/${region_id}/district`, {
+        return await this.$axios.get(`/region/${region_id}/district`, {
             headers: {
                 'Authorization': `Bearer ${ localStorage.getItem('auth_token') }`
             }
         })
         .then((response) => { 
-            commit('SET_DISTRICTS', response.data) 
-            commit('SET_DISTRICTS_LOADING', false)
+            commit('SET_DISTRICTS', response.data)
+            setTimeout(() => commit('SET_DISTRICTS_LOADING', false), 500)
         }).catch(() => {
             commit('SET_DISTRICTS', [])
-            commit('SET_DISTRICTS_LOADING', false)
+            setTimeout(() => commit('SET_DISTRICTS_LOADING', false), 500)
         }) 
     }
   }

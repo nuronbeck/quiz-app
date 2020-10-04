@@ -39,6 +39,8 @@ import AccountPathCard from '~/components/App/AccountPathCard'
 import Pager from '~/components/App/Pager'
 
 import LibraryDrawer from '~/components/App/LibraryDrawer'
+import LibrarySidebar from '~/components/App/LibrarySidebar'
+
 
 import { mapGetters } from 'vuex'
 

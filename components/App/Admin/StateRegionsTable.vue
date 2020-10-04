@@ -29,7 +29,7 @@
               <md-icon class="text-primary">edit</md-icon>
             </span>
             <span :style="{ cursor: 'pointer', userSelect: 'none' }"
-              @click="removeUserSuggestion(props.row)"
+              @click="removeTableRow(props.row)"
             >
               <md-icon class="text-danger">delete</md-icon>
             </span>
@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapGetters } from 'vuex'
 import sweetalert from '~/mixins/sweetalert'
 
 export default {
@@ -81,7 +81,7 @@ export default {
           tdClass: 'text-center'
         },
         {
-          label: this.$t('Language code'), 
+          label: this.$t('Translated for'), 
           field: 'lang',
           thClass: 'text-center',
           tdClass: 'text-center'
@@ -106,16 +106,41 @@ export default {
       rows: []
     }
   },
-  methods: {
-    ...mapActions({
-      loadRegions: 'admin/loadRegions'
-    })
+  watch: {
+    regions(oldValue, newValue){
+      this.fillTableData()
+    }
   },
   computed: {
     ...mapGetters({
       regions: 'admin/regions',
       regionsIsLoading: 'admin/regionsIsLoading'
     })
+  },
+  mounted(){
+    this.fillTableData()
+  },
+  methods: {
+    fillTableData(){
+      this.rows = [...this.regions]
+    },
+    removeTableRow(rowData){
+      let removingPayload = { ...rowData }
+      this.removeTableRowModal(this.$t('The region <b> %{name} </b> and all related with it the data will be permanently deleted!', { 
+          name: removingPayload.name
+        })
+      )
+      .then(() => {
+        this.$store.dispatch('admin/removeRegion', statePayload.id)
+        .then(() => {
+          this.notifyToast(this.$t('Region has been deleted.'), 'success')
+          this.fillTableData()
+        })
+        .catch(() => {
+          this.notifyToast(this.$t('Region has not been deleted.'), 'error')
+        })
+      })
+    }
   }
 }
 </script>

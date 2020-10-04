@@ -9,6 +9,13 @@
       :class="containerClass"
       class="page-section">
 
+      <div class="d-flex justify-content-start pb-3">
+        <button class="btn btn-secondary" @click="$router.push(localePath('admin-locations'))">
+          <md-icon>arrow_back</md-icon>
+          {{ $t('Back to states') }}
+        </button>
+      </div>
+
       <page-separator
         :title="$t('Region cities')" />
       
@@ -34,9 +41,15 @@
       RegionCitiesTable
     },
     extends: Page,
-    validate({ params, store }) {
-      return /^\d+$/.test(params.id)
-    },
+    
+  async validate({ params, store }) {
+    if(/^\d+$/.test(params.id)){
+      await store.dispatch('admin/loadDistricts', params.id)
+      return true
+    } else {
+      return false
+    }
+  },
     data() {
       return {
         title: this.$t('Region cities')

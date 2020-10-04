@@ -121,6 +121,25 @@ export default {
                     }
                 })
             })
+        },
+        removeTableRowModal(warningHtmlText){
+            return new Promise((resolve, reject) => {
+                Swal.fire({
+                    title: this.$t('Are you sure?'),
+                    html: warningHtmlText,
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    confirmButtonText: this.$t('Yes, delete it!'),
+                    cancelButtonText: this.$t('Cancel')
+                }).then((result) => {
+                    if (result.value) {
+                        resolve(true)
+                    } else {
+                        reject(false)
+                    }
+                })
+            })
         }
     }
 }

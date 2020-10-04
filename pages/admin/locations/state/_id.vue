@@ -30,7 +30,7 @@
 <script>
   import Page from '~/components/App/Page'
   import StateRegionsTable from '~/components/App/Admin/StateRegionsTable'
-  import { mapActions, mapGetters } from 'vuex'
+  import { mapActions } from 'vuex'
 
   export default {
     middleware: [
@@ -41,8 +41,13 @@
       StateRegionsTable
     },
     extends: Page,
-    validate({ params }) {
-      return /^\d+$/.test(params.id)
+    async validate({ params, store }) {
+      if(/^\d+$/.test(params.id)){
+        await store.dispatch('admin/loadRegions', params.id)
+        return true
+      } else {
+        return false
+      }
     },
     data() {
       return {

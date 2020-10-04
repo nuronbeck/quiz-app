@@ -17,19 +17,12 @@
           <div v-if="props.column.field == 'lang'">
             {{ props.row.lang }}
           </div>
-          <div v-if="props.column.field == 'regionsHtml'">
-            <a class="bg-primary p-1 pr-3 rounded text-light" style="cursor: pointer"
-                @click.prevent="$router.push(localePath(`/admin/locations/state/${props.row.id}`))">
-                <md-icon>folder</md-icon>
-                {{ $t('Open') }}
-            </a>
-          </div>
           <div v-if="props.column.field == 'actionsHtml'">
             <span :style="{ cursor: 'pointer', userSelect: 'none' }">
               <md-icon class="text-primary">edit</md-icon>
             </span>
             <span :style="{ cursor: 'pointer', userSelect: 'none' }"
-              @click="removeUserSuggestion(props.row)"
+              @click="removeTableRow(props.row)"
             >
               <md-icon class="text-danger">delete</md-icon>
             </span>
@@ -81,16 +74,8 @@ export default {
           tdClass: 'text-center'
         },
         {
-          label: this.$t('Language code'), 
+          label: this.$t('Translated for'), 
           field: 'lang',
-          thClass: 'text-center',
-          tdClass: 'text-center'
-        },
-        {
-          label: this.$t('Region cities'), 
-          field: 'regionsHtml',
-          sortable: false,
-          globalSearchDisabled: true,
           thClass: 'text-center',
           tdClass: 'text-center'
         },
@@ -106,23 +91,41 @@ export default {
       rows: []
     }
   },
-  methods: {
-    ...mapActions({
-      loadDistricts: 'admin/loadDistricts'
-    })
-  },
-  mounted(){
-    this.loadDistricts()
-    .then(() => {
-      this.rows = [...this.districts]
-      console.log(this.rows)
-    })
+  watch: {
+    districts(oldValue, newValue){
+      this.fillTableData()
+    }
   },
   computed: {
     ...mapGetters({
-      districts: 'admin/regions',
+      districts: 'admin/districts',
       districtsIsLoading: 'admin/districtsIsLoading'
     })
+  },
+  methods: {
+    fillTableData(){
+      this.rows = [...this.districts]
+    },
+    removeTableRow(rowData){
+      let removingPayload = { ...rowData }
+      this.removeTableRowModal(this.$t('The city <b> %{name} </b> and all related with it the data will be permanently deleted!', { 
+          name: removingPayload.name
+        })
+      )
+      .then(() => {
+        this.$store.dispatch('admin/removeDistrict', statePayload.id)
+        .then(() => {
+          this.notifyToast(this.$t('City has been deleted.'), 'success')
+          this.fillTableData()
+        })
+        .catch(() => {
+          this.notifyToast(this.$t('City has not been deleted.'), 'error')
+        })
+      })
+    }
+  },
+  mounted(){
+    this.fillTableData()
   }
 }
 </script>

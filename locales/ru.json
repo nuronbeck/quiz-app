@@ -225,6 +225,11 @@
   "User with number <b>%{phone}</b></br> (%{first_name} %{last_name}) </br> and all related with it the data will be permanently deleted!": "Пользователь c номером <b>%{phone}</b></br> (%{first_name} %{last_name}) и все связанные</br> с ним данные будут безвозвратно удалены",
   "State has been deleted.": "Страна успешно удалена!",
   "State <b> %{name} </b> and all related with it the data will be permanently deleted!": "Страна <b> %{name} </b> и все связанные с ним данные будут удалены без возможности восстановления!",
+  "Region has been deleted.": "Регион был удалён.",
+  "The region <b> %{name} </b> and all related with it the data will be permanently deleted!": "Регион <b> %{name} </b> и все связанные с ним данные будут удалены без возможности восстановления!",
+  "The city <b> %{name} </b> and all related with it the data will be permanently deleted!": "Город <b> %{name} </b> и все связанные с ним данные будут удалены без возможности восстановления!",
+  "City has been deleted.": "Город был удалён.",
+  "City name": "Наименование города",
   "Add": "Добавить",
   "Save": "Сохранить",
   "Add country": "Добавить страну",
@@ -235,5 +240,6 @@
   "*Required": "*Обязательное поле к заполнению",
   "State successfully added!": "Страна успешно добавлена!",
   "Error adding, check inputs filled correctly!": "Ошибка добавления, проверьте правильность заполнения данных!",
-  "Server error! State hasn't been added!": "Ошибка сервера! Страна не была добавлена!"
+  "Server error! State hasn't been added!": "Ошибка сервера! Страна не была добавлена!",
+  "Test catalogs": "Каталог тестов"
 }
